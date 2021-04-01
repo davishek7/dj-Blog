@@ -1,0 +1,65 @@
+{% extends 'posts/layout.html' %}
+{% load humanize %}
+{% load static %}
+{% block mycss %}
+<style>
+    main{
+        padding-top: 50px;
+    }
+</style>
+{% endblock mycss %}
+
+{% block content %}
+<a href="{% url 'accounts:user-profile' %}" class='btn btn-light'>&#8592;&nbsp;Back to Profile</a>
+<hr>
+<div class="card">
+            <div class="card-body">
+                <h4>All Posts by {{user}}</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col" colspan=2>Title</th>
+                <th class='text-center' scope="col">Update</th>
+                <th class='text-center' scope="col">Delete</th>
+                <th scope="col">Status</th>
+                <th scope='col'>Last Updated</th>
+                </tr>
+            </thead>
+            {% for post in posts %}
+            <tbody>
+                <tr>
+                <td colspan=2><a href="{{post.get_absolute_url}}">{{post.title}}</a></td>
+                <td class='text-center'><a href="{% url 'posts:update-post' post.slug %}"><i class='fas fa-edit'></i></a></td>
+                <td class='text-center'><a href="{% url 'posts:delete-post' post.slug %}"><i class='fas fa-trash text-danger'></i></a></td>
+                <td style='text-transform: capitalize;'>{{post.status}}</td>
+                <td>{{post.updated|naturaltime}}</td>
+                </tr>
+            </tbody>
+            {% empty %}
+            <p>No post found.</p>
+            {% endfor %}
+        </table>
+        <hr>
+            <!-- Pagination -->
+            <div class="text-center">
+            {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-outline-info mb-4">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info mb-4">Previous</a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a href="?page={{num}}" class="btn btn-info mb-4 disabled">{{num}}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{num}}" class="btn btn-outline-info mb-4">{{num}}</a>
+                {% endif %}
+            {% endfor %}
+                {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="btn btn-outline-info mb-4">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-info mb-4">Last</a>
+            {% endif %}
+            {% endif %}
+            </div>
+            </div>
+        </div>
+{% endblock %}

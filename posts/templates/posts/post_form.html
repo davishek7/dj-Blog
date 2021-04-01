@@ -1,0 +1,37 @@
+{% extends 'posts/layout.html' %} 
+{% block title%}
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+<form action="" method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="form-group">
+          <label>{{form.title.label}}</label>
+          {{form.title}}
+          <span>{{form.title.errors}}</span>
+        </div>
+        <div class="form-group">
+          <label>{{form.category.label}}</label>
+          {{form.category}}
+          <span>{{form.category.errors}}</span>
+        </div>
+        <div class="form-group">
+          <label>{{form.content.label}}</label>
+          {{form.content}}
+          {{form.media}}
+          <span>{{form.content.errors}}</span>
+        </div>
+        <div class="form-group">
+          <label>{{form.status.label}}</label>
+          {{form.status}}
+          <span>{{form.status.errors}}</span>
+          <br>
+          <small class='text-info'>*You can make drafts and can publish them later from your profile.</small>
+        </div>
+    <button type="submit" class='btn btn-primary' >Post</button>
+</form>
+</div>
+  {% include 'posts/sidebar.html' %}
+</div>
+{% endblock %}

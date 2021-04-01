@@ -1,0 +1,50 @@
+{% extends 'accounts/layout.html' %} {% load static %} 
+
+{% block mycss %}
+<style>
+  span ul {
+    list-style-type: none;
+}
+</style>
+{% endblock mycss %}
+{% block content %}
+
+<div class="account-container">
+  <div class="card">
+    <div class="card-body">
+      <form method="POST">
+        <h3 class='text-center'>Blog - Register</h3>
+        <hr>
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Username</label>
+          {{form.username}}
+          <span class='text-danger'>{{form.username.errors}}</span>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          {{form.email}}
+          <span class="text-danger">{{form.non_field_errors}}</span>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          {{form.password1}}
+          <span class='text-danger'>{{form.password1.errors}}</span>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          {{form.password2}}
+          <span class='text-danger'>{{form.password2.errors}}</span>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-user-plus"></i>&nbsp;Register</button>
+      </form>
+        <hr>
+      <span
+        >Already have an account ? Login
+        <a href="{% url 'login' %}">here</a>.</span
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

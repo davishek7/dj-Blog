@@ -1,0 +1,76 @@
+{% extends 'posts/layout.html' %} {% load static %}
+
+{% block content %}
+<main>
+<div class="row">
+  <!-- Post Content Column -->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox"></div>
+  <div class="col-lg-8 py-4">
+    <!-- Title -->
+    <div class="card card-body shadow-sm">
+    <h2 class="mt-4">{{post.title}}</h2>
+      <!-- <p>{{ request.get_full_path|urlencode }}</p> -->
+    <!-- Author -->
+    <p class="lead">
+      by
+      <a href="#">{{post.author}}</a>
+    </p>
+
+    <hr />
+
+    <!-- Date/Time -->
+    <p>{{post.created}} Last updated on {{post.updated}}</p>
+
+    <hr />
+
+    <!-- Post Content -->
+    <p class="lead">{{post.content|safe|linebreaks}}</p>
+    </div>
+
+    <hr />
+
+    <!-- Comments Form -->
+    {% if request.user.is_authenticated %}
+      <h5 class="card-header">Leave a Comment:</h5>
+      <br>
+        <form method='POST' style='margin-bottom: 2px;'>
+          {% csrf_token %}
+          <div class="form-group">
+          <label class='d-none'>{{comment_form.body.label}}</label>
+          {{comment_form.media}}
+            {{comment_form.body}}
+            </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    {% else %}
+    <p>Please <a href="{% url 'login' %}" target='_blank'>Login</a> first to comment.</p>
+    {% endif %}
+<br>
+    <!-- Single Comment -->
+    {% with comments.count as total_comments %}
+      <p>{{total_comments}} comment{{total_comments|pluralize}}</p>
+    {% endwith %}
+    <hr>
+    {% for comment in comments %}
+    <div class="media mb-4">
+      <img
+        class="d-flex mr-3 rounded-circle"
+        src="{{comment.user.profile.profile_pic.url}}"
+        alt="profile pic"
+        id="profile-pic"
+      />
+      <div class="media-body">
+        <h6 class="mt-0">
+          {{comment.user.username}} <small>on {{comment.created}}</small>
+        </h6>
+        {{comment.body|safe}}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% include 'posts/sidebar.html' %}
+</div>
+<!-- /.row -->
+
+{% endblock %}

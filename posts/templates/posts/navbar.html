@@ -1,0 +1,90 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'posts:all_posts' %}">Blog</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarResponsive"
+      aria-controls="navbarResponsive"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'posts:all_posts' %}"
+            ><i class='fas fa-home'></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          {% for category in categories %}
+          <a class="dropdown-item" href="{% url 'posts:category_list' category.slug %}">{{category.name|title}}</a>
+          {% endfor %}
+        </div>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'posts:about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <img
+            class="d-flex mr-3 rounded-circle"
+            src="{{user.profile.profile_pic.url}}"
+            alt="profile pic"
+            id="profile-pic"
+          />
+        </li>
+        <li class="nav-item dropdown">
+          {% if request.user.is_superuser %}
+          <a
+            class="nav-link dropdown-toggle"
+            data-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {{request.user.profile.name}} (Admin)</a
+          >
+          {% else %}
+          <a
+            class="nav-link dropdown-toggle"
+            data-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {{request.user.profile.name}}</a
+          >
+          {% endif %}
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'posts:create-post' %}"><i class='fas fa-edit'></i>&nbsp;&nbsp;Create New Post</a>
+            <a class="dropdown-item" href="{% url 'accounts:user-profile' %}"><i class='fas fa-user-edit'></i>&nbsp;&nbsp;Update Profile</a>
+            <a class="dropdown-item" href="{% url 'password_change' %}"><i class='fas fa-key'></i>&nbsp;&nbsp;Change Password</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
+          </div>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
