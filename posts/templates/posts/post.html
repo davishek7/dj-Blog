@@ -2,31 +2,33 @@
 
 {% block content %}
 <main>
-<div class="row">
   <!-- Post Content Column -->
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<div class="addthis_inline_share_toolbox"></div>
-  <div class="col-lg-8 py-4">
+  <div class="card shadow-sm my-4">
     <!-- Title -->
-    <div class="card card-body shadow-sm">
-    <h2 class="mt-4">{{post.title}}</h2>
-      <!-- <p>{{ request.get_full_path|urlencode }}</p> -->
-    <!-- Author -->
-    <p class="lead">
-      by
-      <a href="#">{{post.author}}</a>
-    </p>
+    <div class="card-body">
+    <h2 class="mt-4" id='post-title'><div>{{post.title}}</div>
+      <div class="dropdown">
+          <button class="btn btn-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-share-square"></i>
+          </button>
+        <div class="dropdown-menu">
+          <input type="text" class="form-control" value='{{request.build_absolute_uri}}' disabled>
+        </div>
+      </div>
+    </h2>
+    <!-- <p>{{request.get_host}}{{ request.get_full_path|urlencode }}</p>
+    <p><a href="{{request.build_absolute_uri}}">{{request.build_absolute_uri}}</a></p> -->
 
-    <hr />
-
-    <!-- Date/Time -->
-    <p>{{post.created}} Last updated on {{post.updated}}</p>
-
-    <hr />
+    <small class='text-muted'>
+      Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
+        Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
+        Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
+    </small>
 
     <!-- Post Content -->
     <p class="lead">{{post.content|safe|linebreaks}}</p>
     </div>
+  </div>
 
     <hr />
 
@@ -38,15 +40,14 @@
           {% csrf_token %}
           <div class="form-group">
           <label class='d-none'>{{comment_form.body.label}}</label>
-          {{comment_form.media}}
+          <!-- {{comment_form.media}} -->
             {{comment_form.body}}
             </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Comment</button>
         </form>
     {% else %}
     <p>Please <a href="{% url 'login' %}" target='_blank'>Login</a> first to comment.</p>
     {% endif %}
-<br>
     <!-- Single Comment -->
     {% with comments.count as total_comments %}
       <p>{{total_comments}} comment{{total_comments|pluralize}}</p>
@@ -69,7 +70,5 @@
     </div>
     {% endfor %}
   </div>
-</div>
-<!-- /.row -->
 
 {% endblock %}

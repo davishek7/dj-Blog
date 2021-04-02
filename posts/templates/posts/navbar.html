@@ -57,7 +57,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {{request.user.profile.name}} (Admin)</a
+            {{request.user}} (Admin)</a
           >
           {% else %}
           <a
@@ -68,7 +68,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {{request.user.profile.name}}</a
+            {{request.user}}</a
           >
           {% endif %}
           <div class="dropdown-menu">

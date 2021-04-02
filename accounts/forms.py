@@ -38,11 +38,14 @@ class UserLoginForm(AuthenticationForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    bio=forms.CharField(widget=forms.Textarea(attrs={'rows':3}),required=True)
     class Meta:
         model = Profile
-        fields = ['profile_pic']
+        fields = ['bio','profile_pic']
 
 class UserUpdateForm(forms.ModelForm):
+    first_name=forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
     class Meta:
         model=User
-        fields=['first_name','last_name','email']
+        fields=['first_name','last_name']

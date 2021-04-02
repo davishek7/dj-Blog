@@ -16,8 +16,9 @@
         <a href="{{post.get_absolute_url}}" class='btn btn-light' ><i class="fab fa-readme"></i>&nbsp;Read</a>
       </div>
       <div class="card-footer text-muted">
-        <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} by
-        <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a>
+        Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
+        Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
+        Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
       </div>
     </div>
           

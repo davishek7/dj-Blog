@@ -27,10 +27,6 @@ label {
 		margin:0 auto;
 		border-radius:50%;
 }
-#carousel-img{
-  width:320px;
-  height:240px;
-}
 .card-body {
   padding: 20px;
 }
@@ -50,4 +46,8 @@ label {
 }
 main{
   min-height: 85vh;
+}
+#post-title{
+  display: flex;
+  justify-content: space-between;
 }

@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
+from django.contrib import messages
 from .forms import CreateUserForm,ProfileUpdateForm,UserUpdateForm
 from .models import Profile
 from posts.models import Post
@@ -44,10 +45,22 @@ class RegisterPage(FormView):
 		return super(RegisterPage, self).get(*args, **kwargs)
 
 def user_profile(request):
-	posts=Post.objects.filter(author=request.user)
-	p_form=ProfileUpdateForm()
-	u_form=UserUpdateForm()
-	context={'posts':posts,'title':f"{request.user}'s Profile",'u_form':u_form,'p_form':p_form}
+	# posts=Post.objects.filter(author=request.user)
+	if request.method == 'POST':
+		u_form=UserUpdateForm(request.POST,instance=request.user)
+		p_form = ProfileUpdateForm(
+			request.POST, request.FILES, instance=request.user.profile)
+
+		if u_form.is_valid() and p_form.is_valid():
+			u_form.save()
+			p_form.save()
+			messages.success(request,'Your account has been updated')
+			return redirect('accounts:user-profile')
+	else:
+		u_form = UserUpdateForm(instance=request.user)
+		p_form = ProfileUpdateForm(instance=request.user.profile)
+
+	context={'title':f"{request.user}'s Profile",'u_form':u_form,'p_form':p_form}
 	return render(request,'accounts/user_profile.html',context)
 
 class UserPostView(ListView):

@@ -8,27 +8,27 @@
 {% endblock mycss %}
 
 {% block content %}
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card card-body">
+            <div class="card">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{message}}</div>
+            {% endfor %}
+            {% endif %}
+                <div class="card-body">
+                    <div class="row">
+                                    <div class="col-md-4">
                 <a class="btn btn-warning" href="{% url 'accounts:user-posts' %}">My Posts</a>
                 <hr />
                 <img class='d-flex mr-3 rounded-circle'
                     
                     src="{{request.user.profile.profile_pic.url}}"
                 />
-                <p class='text-center'>@{{user.username}}</p>
+                <p class='text-center'>Username: {{user.username}}</p>
                 <p class='text-center'>Email: {{user.email}}</p>
-                </div>
             </div>
-        <div class="col-md-8 account-view">
-            <div class="card">
-            <div class="card-body">
+            <div class="col-md-8 account-view">
             <form method="POST" action="" enctype="multipart/form-data">
                 {%csrf_token%}
-                <div class="form-group">
-                    {{p_form.profile_pic}}
-                </div>
                 <div class="form group">
                     <label>{{u_form.first_name.label}}</label>
                     {{u_form.first_name}}
@@ -39,13 +39,24 @@
                     {{u_form.last_name}}
                     <span>{{u_form.last_name.errors}}</span>
                 </div>
+                <div class="form group">
+                    <label>{{p_form.bio.label}}</label>
+                    {{p_form.bio}}
+                    <span>{{p_form.bio.errors}}</span>
+                </div>
+                <div class="form group">
+                    <label>{{p_form.profile_pic.label}}</label>
+                    {{p_form.profile_pic}}
+                    <span>{{p_form.profile_pic.errors}}</span>
+                </div>
                 <hr>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i>&nbsp;Update Profile</button>
                 </div>
             </form>
-            </div> 
+        </div>
+                    </div>
+                    
+                </div>
             </div>
-        </div>
-        </div>
 {% endblock %}
