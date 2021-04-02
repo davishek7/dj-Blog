@@ -1,0 +1,53 @@
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+select{
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+label {
+  padding-top: 10px !important;
+  display: block;
+}
+#profile-pic{
+  width: 30px;
+  height: 30px;
+}
+#profile-pic-detail{
+		max-width:200px;
+		max-height:200px;
+		margin:0 auto;
+		border-radius:50%;
+}
+#carousel-img{
+  width:320px;
+  height:240px;
+}
+.card-body {
+  padding: 20px;
+}
+.account-container {
+  max-width: 400px;
+  margin: auto;
+  background-color: #fff;
+  -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+  box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+}
+.profile-container {
+  max-width: 1300px;
+  margin: auto;
+  background-color: #fff;
+  -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+  box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+}
+main{
+  min-height: 85vh;
+}

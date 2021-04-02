@@ -6,7 +6,7 @@
       <form action="" method="POST">
         {% csrf_token %}
       <p>Are you sure to delete '{{post.title}}' ?</p>
-      <a href="{% url 'accounts:user-profile' %}" class='btn btn-secondary'>Go Back</a>
+      <a href="{% url 'accounts:user-posts' %}" class='btn btn-secondary'>Go Back</a>
       <input class="btn btn-danger" type="submit" value="Delete">
       </form>
     </div>

@@ -9,15 +9,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment,Category
-from .forms import NewCommentForm
+from .forms import NewCommentForm,PostForm
 
 def categories(request):
     return {
-        'categories':Category.objects.all()
-    }
-def all_posts(request):
-    return{
-        'posts' : Post.objects.filter(status='published').order_by('-created')[:5]
+        'categories':Category.objects.all(),
     }
 
 class PostList(ListView):
@@ -58,7 +54,8 @@ def post_detail(request,slug):
 
 class PostCreateView(LoginRequiredMixin,CreateView):
     model=Post
-    fields=['title','category','content','status']
+    form_class=PostForm
+    # fields=['title','category','content','status']
     success_url=reverse_lazy('posts:all_posts')
 
     def form_valid(self,form):

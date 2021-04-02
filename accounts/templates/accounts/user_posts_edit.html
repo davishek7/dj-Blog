@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                 <th scope="col" colspan=2>Title</th>
+                <th scope="col">Category</th>
                 <th class='text-center' scope="col">Update</th>
                 <th class='text-center' scope="col">Delete</th>
                 <th scope="col">Status</th>
@@ -29,6 +30,7 @@
             <tbody>
                 <tr>
                 <td colspan=2><a href="{{post.get_absolute_url}}">{{post.title}}</a></td>
+                <td>{{post.category}}</td>
                 <td class='text-center'><a href="{% url 'posts:update-post' post.slug %}"><i class='fas fa-edit'></i></a></td>
                 <td class='text-center'><a href="{% url 'posts:delete-post' post.slug %}"><i class='fas fa-trash text-danger'></i></a></td>
                 <td style='text-transform: capitalize;'>{{post.status}}</td>
