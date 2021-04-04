@@ -6,7 +6,7 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields={'slug':('name',)}
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'post', 'user', 'status', 'created']
+    list_display = ['__str__','body', 'post', 'user', 'status', 'created']
 
     class Meta:
         model = Comment

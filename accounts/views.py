@@ -6,10 +6,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CreateUserForm,ProfileUpdateForm,UserUpdateForm
+from django.core.paginator import Paginator
 from .models import Profile
-from posts.models import Post
+from posts.models import Post,Comment
 
 class UserLoginView(LoginView):
 	template_name = 'accounts/login.html'
@@ -26,7 +28,7 @@ class UserLoginView(LoginView):
 class RegisterPage(FormView):
 	template_name = 'accounts/register.html'
 	form_class = CreateUserForm
-	success_url = reverse_lazy('posts:all_posts')
+	success_url = reverse_lazy('posts:all-posts')
 
 	def form_valid(self, form):
 		user = form.save()
@@ -41,9 +43,10 @@ class RegisterPage(FormView):
 
 	def get(self, *args, **kwargs):
 		if self.request.user.is_authenticated:
-			return redirect('posts:all_posts')
+			return redirect('posts:all-posts')
 		return super(RegisterPage, self).get(*args, **kwargs)
 
+@login_required
 def user_profile(request):
 	# posts=Post.objects.filter(author=request.user)
 	if request.method == 'POST':
@@ -70,6 +73,28 @@ class UserPostView(ListView):
 
 	def get_queryset(self):
 		return Post.objects.filter(author=self.request.user)
+
+class UserCommentView(ListView):
+	template_name='accounts/user_comments.html'
+	context_object_name='comments'
+	paginate_by=10
+
+	def get_queryset(self):
+		return Comment.objects.filter(user=self.request.user)
+
+
+def user_all_posts(request,author):
+	posts=Post.objects.filter(author=author,status='published')
+
+	paginator = Paginator(posts,5)
+
+	page_number = request.GET.get('page')
+	page_obj=paginator.get_page(page_number)
+
+	context = {'page_obj':page_obj}
+
+	return render(request,'accounts:user_posts.html',context)
+
 
 
 

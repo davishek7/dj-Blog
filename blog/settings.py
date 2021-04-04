@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'ckeditor',
     'ckeditor_uploader',
+    'django_social_share',
 
     'posts.apps.PostsConfig',
     'accounts.apps.AccountsConfig',
@@ -73,7 +74,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'posts.views.categories',
-                # 'posts.views.all_posts',
+                'django.template.context_processors.request',
+                # 'posts.views.al-posts',
             ],
         },
     },
@@ -141,7 +143,7 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'posts:all_posts'
+LOGIN_REDIRECT_URL = 'posts:all-posts'
 
 CKEDITOR_CONFIGS = {
     'default': {

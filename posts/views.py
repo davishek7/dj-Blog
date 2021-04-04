@@ -55,8 +55,7 @@ def post_detail(request,slug):
 class PostCreateView(LoginRequiredMixin,CreateView):
     model=Post
     form_class=PostForm
-    # fields=['title','category','content','status']
-    success_url=reverse_lazy('posts:all_posts')
+    success_url=reverse_lazy('posts:all-posts')
 
     def form_valid(self,form):
         form.instance.author=self.request.user
@@ -71,7 +70,7 @@ class PostCreateView(LoginRequiredMixin,CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     model=Post
-    fields=['title','category','content','status']
+    form_class = PostForm
     success_url = reverse_lazy('accounts:user-profile')
 
     def form_valid(self,form):
@@ -104,6 +103,44 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
+            return True
+        return False
+
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    fields = ['body', 'status']
+    success_url = reverse_lazy('accounts:user-profile')
+
+    def form_valid(self, form):
+        form.instance.post = self.post
+        return super(CommentUpdateView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update a Blog Comment'
+        return context
+
+    def test_func(self):
+        comment = self.get_object()
+        if self.request.user == comment.user:
+            return True
+        return False
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    context_object_name = 'comment'
+    success_url = reverse_lazy('accounts:user-profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Delete a Blog Comment'
+        return context
+
+    def test_func(self):
+        comment = self.get_object()
+        if self.request.user == comment.user:
             return True
         return False
 

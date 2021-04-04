@@ -1,0 +1,12 @@
+{% extends 'posts/layout.html' %} {% load static %} {% block content %}
+
+  <div class="card my-4 shadow-sm account-container">
+    <div class="card-body">
+<form action="" method='POST'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Update" class="btn btn-primary">
+</form>
+    </div>
+  </div>
+{% endblock %}

@@ -22,8 +22,14 @@ label {
   height: 30px;
 }
 #profile-pic-detail{
-		max-width:200px;
-		max-height:200px;
+		max-width:300px;
+		max-height:300px;
+		margin:0 auto;
+		border-radius:50%;
+}
+#profile-pic-sidebar{
+    max-width:200px;
+		max-height:300px;
 		margin:0 auto;
 		border-radius:50%;
 }
