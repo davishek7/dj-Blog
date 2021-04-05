@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment,Category
 from .forms import NewCommentForm,PostForm
+from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 
 def categories(request):
     return {
@@ -34,7 +35,16 @@ class PostList(ListView):
 def post_detail(request,slug):
     post=get_object_or_404(Post,slug=slug,status='published')
 
-    comments=post.comments.filter(status=True)
+    allcomments=post.comments.filter(status=True)
+    page=request.GET.get('page',1)
+    paginator= Paginator(allcomments,3)
+
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments=paginator.page(1)
+    except EmptyPage:
+        comments=paginator.page(paginator.num_pages)
 
     user_comment=None
 
@@ -43,12 +53,12 @@ def post_detail(request,slug):
         if comment_form.is_valid():
             user_comment=comment_form.save(commit=False)
             user_comment.post=post
-            user_comment.user=request.user
             user_comment.save()
             return HttpResponseRedirect('/posts/'+post.slug)
     else:
         comment_form = NewCommentForm()
-    context={'post':post,'comment_form':comment_form,'comments':comments,'title':post.title}
+    context = {'post': post, 'comment_form': comment_form,'allcomments':allcomments,
+               'comments': user_comment,'comments': comments, 'title': post.title}
     return render(request,'posts/post.html',context)
 
 

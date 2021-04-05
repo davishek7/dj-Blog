@@ -12,6 +12,7 @@ gunicorn = "*"
 whitenoise = "*"
 psycopg2-binary = "*"
 django-social-share = "*"
+django-mptt = "*"
 
 [dev-packages]
 

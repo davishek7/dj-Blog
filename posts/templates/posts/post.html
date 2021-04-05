@@ -9,14 +9,11 @@
       <!-- Title -->
       <div class="card-body">
       <h2 class="mt-4" id='post-title'><div>{{post.title}}</div>
-        <div class="dropdown">
-            <button class="btn btn-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
               <i class="fas fa-share-square"></i>
             </button>
-          <div class="dropdown-menu">
-            <input type="text" class="form-control" value='{{request.build_absolute_uri}}' disabled>
-          </div>
-        </div>
+            {% include 'posts/share_modal.html' %}
+            <!-- <input type="hidden" class="form-control" value='{{request.build_absolute_uri}}'> -->
       </h2>
 
       <small class='text-muted'>
@@ -24,84 +21,53 @@
           Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
           Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
       </small>
-
-<ul class="list-group list-group-horizontal">
-  <li class="list-group-item">{% post_to_twitter "Post: {{post.title}}. Check it out!" object_or_url '<i class="fab fa-twitter-square text-info" style="font-size:36px"></i>' %}</li>
-  <li class="list-group-item">{% post_to_reddit "Post: {{post.title}}" object_or_url '<i class="fab fa-reddit-square" style="font-size:36px;color:red"></i>' %}</li>
-  <li class="list-group-item">{% post_to_whatsapp object_or_url '<i class="fab fa-whatsapp-square" style="font-size:36px;color:green"></i>' %}</li>
-  <li class="list-group-item">{% post_to_facebook object_or_url '<i class="fab fa-facebook-square" style="font-size:36px;color:blue"></i>' %}</li>
-  <li class="list-group-item">{% send_email post.title "Post: {{post.title}}. Check it out!" object_or_url '<i class="fas fa-envelope-square text-warning" style="font-size:36px"></i>' %}</li>
-</ul>
-        <!-- <div>
-          {% post_to_twitter "Post: {{post.title}}. Check it out!" object_or_url '<i class="fab fa-twitter-square"></i>' %} |
-          {% post_to_reddit "Post: {{post.title}}" object_or_url '<i class="fab fa-reddit-square"></i>' %} |
-          {% post_to_facebook object_or_url '<i class="fab fa-facebook-square"></i>' %} |
-          {% post_to_whatsapp object_or_url '<i class="fab fa-whatsapp-square"></i>' %} |
-          {% send_email post.title "Post: {{post.title}}. Check it out!" object_or_url '<i class="fas fa-envelope-square"></i>' %}
-        </div> -->
       <!-- Post Content -->
       <p class="lead">{{post.content|safe|linebreaks}}</p>
       </div>
     </div>
-
       <hr />
 
       <!-- Comments Form -->
-      {% if request.user.is_authenticated %}
         <h5 class="card-header">Leave a Comment:</h5>
         <br>
           <form method='POST' style='margin-bottom: 2px;'>
             {% csrf_token %}
-            <div class="form-group">
-            <label class='d-none'>{{comment_form.body.label}}</label>
-            <!-- {{comment_form.media}} -->
-              {{comment_form.body}}
-              </div>
+           <div class="form-group">
+              {{comment_form.as_p}}
+          </div>
             <button type="submit" class="btn btn-primary">Comment</button>
           </form>
-      {% else %}
-      <p>Please <a href="{% url 'login' %}" target='_blank'>Login</a> first to comment.</p>
-      {% endif %}
       <!-- Single Comment -->
-      {% with comments.count as total_comments %}
+      <br>
+      {% with allcomments.count as total_comments %}
         <p>{{total_comments}} comment{{total_comments|pluralize}}</p>
       {% endwith %}
       <hr>
       {% for comment in comments %}
-      <div class="media mb-4">
-        <img
-          class="d-flex mr-3 rounded-circle"
-          src="{{comment.user.profile.profile_pic.url}}"
-          alt="profile pic"
-          id="profile-pic"
-        />
-        <div class="media-body">
-          <h6 class="mt-0">
-            {{comment.user.username}} <small>on {{comment.created}}</small>
-          </h6>
-          {{comment.body|safe}}
-          {% if comment.user == request.user %}
-          <div>
-          <a href="{% url 'posts:comment-edit' comment.id %}">Edit</a> 
-          <a href="{% url 'posts:comment-delete' comment.id %}">Delete</a>
+      <div class="media mt-4">
+          <div class="media-body">
+              <h6 class="mt-0">{{comment.name}}&nbsp;<small class='text-muted'>{{comment.created}}</small></h6>
+              {{comment.content|linebreaks}}
           </div>
-          {% endif %}
-        </div>
       </div>
+      {% empty %}
+      <p>There is no comment for this post.</p>
       {% endfor %}
-      </div>
-    <div class="col-md-3">
-      <div class="card my-4 shadow-sm">
-        <div class="card-body">
-          <h3>About Author</h3>
-          <hr>
-          <img src="{{post.author.profile.profile_pic.url}}" alt="" id='profile-pic-sidebar'>
-          <p>{{post.author.username}}</p>
-          <p>{{post.author.profile.bio}}</p>
-        </div>
-      </div>
+      <br>
+      {% if comments.has_other_pages %}
+        <nav aria-label="Page navigation conatiner"></nav>
+          <ul class="pagination pagination-sm justify-content-center">
+            {% if comments.has_previous %}
+            <li><a href="?page={{ comments.previous_page_number }}" class="btn btn-light">&laquo; Previous </a></li>
+            {% endif %}
+            {% if comments.has_next %}
+            <li><a href="?page={{ comments.next_page_number }}" class="btn btn-light"> Next &raquo;</a></li>
+          {% endif %}
+          </ul>
+        </nav>
+    {% endif %}
     </div>
+      {% include 'posts/sidebar.html' %}
   </div>
-
 
 {% endblock %}

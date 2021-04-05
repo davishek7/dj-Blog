@@ -13,16 +13,9 @@ Login
         <hr>
         <span>{{forms.non_field_errors}}</span>
         {% csrf_token %}
-        <div class="form-group">
-          <label>{{form.username.label}}</label>
-          {{form.username}}
-          <span>{{form.username.errors}}</span>
-        </div>
-        <div class="form-group">
-          <label>{{form.password.label}}</label>
-          {{form.password}}
-          <span>{{form.password.errors}}</span>
-        </div>
+       <div class="form-group">
+         {{form.as_p}}
+       </div>
         <hr>
         <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login</button>
       </form>

@@ -22,14 +22,16 @@ label {
   height: 30px;
 }
 #profile-pic-detail{
-		max-width:200px;
-		max-height:200px;
+		max-width:300px;
+		max-height:300px;
 		margin:0 auto;
 		border-radius:50%;
 }
-#carousel-img{
-  width:320px;
-  height:240px;
+#profile-pic-sidebar{
+    max-width:200px;
+		max-height:300px;
+		margin:0 auto;
+		border-radius:50%;
 }
 .card-body {
   padding: 20px;
@@ -51,3 +53,43 @@ label {
 main{
   min-height: 85vh;
 }
+#post-title{
+  display: flex;
+  justify-content: space-between;
+}
+.profile-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+  @media screen and (min-width: 600px) {
+    .children form {
+      margin-left: -48px;
+      /* will touch very left side */
+    }
+
+    .children .children form {
+      margin-left: -96px;
+      /* will touch very left side */
+    }
+  }

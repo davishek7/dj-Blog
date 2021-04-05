@@ -11,37 +11,32 @@ class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+    
+    def __init__(self,*args,**kwargs):
+        super(CreateUserForm,self).__init__(*args,**kwargs)
 
+        for fieldname in ['username','password1','password2']:
+            self.fields[fieldname].help_text=None
+    
     def clean(self):
-        username=self.cleaned_data.get('username')
         email=self.cleaned_data.get('email')
-
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Email already exists!')
-        return email
-
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError('Username already exists!')
-        return username
+            raise forms.ValidationError('Email already exist!')
+        return self.cleaned_data
 
 class UserLoginForm(AuthenticationForm):
     class Meta:
         model=User
         fields=['username','password']
 
-    def clean(self):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
-        if not User.objects.filter(username=username).exists():
-            raise forms.ValidationError('Username does not exist!')
-        return self.cleaned_data
-
 
 class ProfileUpdateForm(forms.ModelForm):
     bio=forms.CharField(widget=forms.Textarea(attrs={'rows':3}),required=True)
+    twitter_id=forms.CharField(required=False)
+    github_id = forms.CharField(required=False)
     class Meta:
         model = Profile
-        fields = ['bio','profile_pic']
+        fields = ['bio', 'twitter_id', 'github_id', 'profile_pic']
 
 class UserUpdateForm(forms.ModelForm):
     first_name=forms.CharField(required=True)

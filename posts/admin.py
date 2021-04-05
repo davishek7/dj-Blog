@@ -1,12 +1,13 @@
 from django.contrib import admin
 from .models import Post, Comment,Category
+from mptt.admin import MPTTModelAdmin
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display=['name','slug']
     prepopulated_fields={'slug':('name',)}
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['__str__','body', 'post', 'user', 'status', 'created']
+    list_display = ['__str__', 'post', 'name','email', 'status', 'created']
 
     class Meta:
         model = Comment

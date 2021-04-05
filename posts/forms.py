@@ -6,11 +6,17 @@ from ckeditor_uploader.fields import RichTextUploadingFormField
 
 
 class NewCommentForm(forms.ModelForm):
-    # body = RichTextFormField(config_name='comment',required=True)
-    body=forms.CharField(widget=forms.Textarea(attrs={'rows':3}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}))
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+
+        for fieldname in ['name', 'email', 'content']:
+            self.fields[fieldname].required=True
+
     class Meta:
         model=Comment
-        fields=['body']
+        fields=['name','email','content']
 
 class PostForm(forms.ModelForm):
     title=forms.CharField(required=True)

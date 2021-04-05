@@ -6,6 +6,5 @@ app_name = 'accounts'
 urlpatterns = [
     path('profile/', views.user_profile, name='user-profile'),
     path('user-posts/',views.UserPostView.as_view(),name='user-posts'),
-    path('user-comments/', views.UserCommentView.as_view(), name='user-comments'),
-    path('user-posts/<str:author>/',views.user_all_posts,name='user-all-posts')
+    path('comments/', views.UserCommentView.as_view(), name='comments'),
 ]

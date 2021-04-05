@@ -43,17 +43,16 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, null=True)
     post = models.ForeignKey(
         Post,related_name='comments', on_delete=models.CASCADE, blank=True, null=True)
-    body = RichTextUploadingField(blank=True, null=True, config_name='comment')
+    name = models.CharField(max_length=200, blank=True, null=True)
+    email = models.EmailField(max_length=254, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     status=models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.user}'s comment on '{self.post}'"
+        return f"{self.name}'s comment on '{self.post}'"
 
     class Meta:
         ordering=['-created']

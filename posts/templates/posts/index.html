@@ -2,20 +2,16 @@
 
 <div class="row">
   <!-- Blog Entries Column -->
-  <div class="col-md-8">
-    <h1 class="my-4">
-      Page Heading
-      <small>Secondary Text</small>
-    </h1>
+  <div class="col-md-9">
     {% for post in posts %}
     <!-- Blog Post -->
-    <div class="card mb-4 shadow-sm">
+    <div class="card my-4 shadow-sm">
       <div class="card-body">
         <h3 class="card-title">{{post.title}}</h3>
         <a href="{{post.get_absolute_url}}" class='btn btn-light' ><i class="fab fa-readme"></i>&nbsp;Read</a>
       </div>
       <div class="card-footer text-muted">
-        Published by: <a href="{% url 'accounts:user-all-posts' post.author %}"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
+        Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
         Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
         Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
       </div>
@@ -41,7 +37,7 @@
       {% endif %}
     {% endif %}
   </div>
-  {% include 'posts/category_list.html' %}
+  {% include 'posts/sidebar.html' %}
 </div>
 
 {% endblock %}

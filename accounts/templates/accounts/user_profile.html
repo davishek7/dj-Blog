@@ -17,9 +17,9 @@
         >
         <hr />
         <img
-          class="d-flex mr-3 justify-content-center rounded-circle"
+          class="d-flex mr-3 justify-content-center"
           id="profile-pic-detail"
-          src="{{request.user.profile.profile_pic.url}}"
+          src="{{request.user.profile.profile_pic.url}}" style="width:50%;height: 50%;border-radius:50%;"
         />
         <p class="text-center">Username: {{user.username}}</p>
         <p class="text-center">Email: {{user.email}}</p>
@@ -27,20 +27,42 @@
       <div class="col-md-8 account-view">
         <form method="POST" action="" enctype="multipart/form-data">
           {%csrf_token%}
-          <div class="form group">
-            <label>{{u_form.first_name.label}}</label>
-            {{u_form.first_name}}
-            <span>{{u_form.first_name.errors}}</span>
-          </div>
-          <div class="form group">
-            <label>{{u_form.last_name.label}}</label>
-            {{u_form.last_name}}
-            <span>{{u_form.last_name.errors}}</span>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form group">
+                <label>{{u_form.first_name.label}}</label>
+                {{u_form.first_name}}
+                <span>{{u_form.first_name.errors}}</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form group">
+                <label>{{u_form.last_name.label}}</label>
+                {{u_form.last_name}}
+                <span>{{u_form.last_name.errors}}</span>
+              </div>
+            </div>
           </div>
           <div class="form group">
             <label>{{p_form.bio.label}}</label>
             {{p_form.bio}}
             <span>{{p_form.bio.errors}}</span>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form group">
+                <label>{{p_form.twitter_id.label}}</label>
+                {{p_form.twitter_id}}
+                <span>{{p_form.twitter_id.errors}}</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form group">
+                <label>{{p_form.github_id.label}}</label>
+                {{p_form.github_id}}
+                <span>{{p_form.github_id.errors}}</span>
+              </div>
+            </div>
           </div>
           <div class="form group">
             <label>{{p_form.profile_pic.label}}</label>

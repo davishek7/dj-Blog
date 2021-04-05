@@ -10,8 +10,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CreateUserForm,ProfileUpdateForm,UserUpdateForm
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 from .models import Profile
 from posts.models import Post,Comment
+
+def site_user(request):
+	return{
+		'user':User.objects.first()
+	}
 
 class UserLoginView(LoginView):
 	template_name = 'accounts/login.html'
@@ -81,19 +87,6 @@ class UserCommentView(ListView):
 
 	def get_queryset(self):
 		return Comment.objects.filter(user=self.request.user)
-
-
-def user_all_posts(request,author):
-	posts=Post.objects.filter(author=author,status='published')
-
-	paginator = Paginator(posts,5)
-
-	page_number = request.GET.get('page')
-	page_obj=paginator.get_page(page_number)
-
-	context = {'page_obj':page_obj}
-
-	return render(request,'accounts:user_posts.html',context)
 
 
 
