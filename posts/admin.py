@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Post, Comment,Category
-from mptt.admin import MPTTModelAdmin
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display=['name','slug']

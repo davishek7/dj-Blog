@@ -21,7 +21,8 @@ from django.contrib.auth import views as auth_views
 from accounts.views import RegisterPage,UserLoginView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('secret/', admin.site.urls),
     path('',include('posts.urls',namespace='posts')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('login/', UserLoginView.as_view(redirect_authenticated_user=True), name='login'),

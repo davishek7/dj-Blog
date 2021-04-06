@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
+
+def user_directory_path(instance, filename):
+    return f"posts/{instance.id}/{filename}"
+
 class Category(models.Model):
     name=models.CharField(max_length=200,db_index=True)
     slug=models.SlugField(max_length=200,unique=True)

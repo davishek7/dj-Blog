@@ -6,13 +6,18 @@ from ckeditor_uploader.fields import RichTextUploadingFormField
 
 
 class NewCommentForm(forms.ModelForm):
-    content = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}))
+    name=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Your name'}))
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Your email'}))
+    content = forms.CharField(widget=forms.Textarea(
+        attrs={'rows': 5, 'placeholder': 'Your comment'}))
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
 
         for fieldname in ['name', 'email', 'content']:
             self.fields[fieldname].required=True
+            self.fields['email'].help_text='<small class="text-muted">* Your email will not be published.</small>'
 
     class Meta:
         model=Comment

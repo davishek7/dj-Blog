@@ -12,7 +12,8 @@ gunicorn = "*"
 whitenoise = "*"
 psycopg2-binary = "*"
 django-social-share = "*"
-django-mptt = "*"
+django-admin-honeypot = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
