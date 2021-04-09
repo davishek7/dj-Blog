@@ -130,10 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+MEDIA_URL = '/images/'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-MEDIA_ROOT = BASE_DIR / 'static/media'
+MEDIA_ROOT = BASE_DIR / 'static/images'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
@@ -168,4 +168,4 @@ CKEDITOR_CONFIGS = {
 
 if os.getcwd() == '/app':
     DEBUG = False
-    MEDIA_URL = '/static/media/'
+    MEDIA_URL = '/static/images/'
