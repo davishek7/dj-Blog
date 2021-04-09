@@ -133,7 +133,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'static/media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
@@ -168,3 +168,4 @@ CKEDITOR_CONFIGS = {
 
 if os.getcwd() == '/app':
     DEBUG = False
+    MEDIA_URL = '/static/media/'
