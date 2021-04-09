@@ -1,0 +1,11 @@
+---
+application:
+  name: "dj-blog"
+  project: "avishekdjangoblog"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-dj-blog"
+  routes:
+  - application_name: "dj-blog"
+    paths:
+    - "/*"
