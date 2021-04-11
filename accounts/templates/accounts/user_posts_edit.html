@@ -1,16 +1,9 @@
 {% extends 'posts/layout.html' %}
 {% load humanize %}
 {% load static %}
-{% block mycss %}
-<style>
-    main{
-        padding-top: 50px;
-    }
-</style>
-{% endblock mycss %}
 
 {% block content %}
-<a href="{% url 'accounts:user-profile' %}" class='btn btn-light'>&#8592;&nbsp;Back to Profile</a>
+<a href="{% url 'accounts:dashboard' %}" class='btn btn-light'>&#8592;&nbsp;Back to Profile</a>
 <hr>
 <div class="card">
             <div class="card-body">

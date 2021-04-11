@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'django_social_share',
     'admin_honeypot',
+    'hitcount',
 
     'posts.apps.PostsConfig',
     'accounts.apps.AccountsConfig',
@@ -77,6 +78,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'posts.views.categories',
                 'accounts.views.site_user',
+                'posts.views.sidebar_comments',
             ],
         },
     },
@@ -140,7 +142,7 @@ STATICFILES_DIRS = [
     BASE_DIR/'static'
 ]
 
-LOGIN_URL = 'login'
+# LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'posts:all-posts'
 
 CKEDITOR_CONFIGS = {

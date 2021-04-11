@@ -2,7 +2,10 @@
 
 <div class="row">
   <!-- Blog Entries Column -->
-  <div class="col-md-9">
+  <div class="col-md-8">
+        <h1 class="my-4">
+      All Posts
+    </h1>
     {% for post in posts %}
     <!-- Blog Post -->
     <div class="card my-4 shadow-sm">
@@ -11,7 +14,7 @@
         <a href="{{post.get_absolute_url}}" class='btn btn-light' ><i class="fab fa-readme"></i>&nbsp;Read</a>
       </div>
       <div class="card-footer text-muted">
-        Published by: <a href="{% url 'accounts:user-profile' %}"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
+        Published by: <a href="{% url 'accounts:dashboard' %}"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
         Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
         Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
       </div>
@@ -19,23 +22,7 @@
     {% endfor%}
 
     <!-- Pagination -->
-    {% if is_paginated %}
-      {% if page_obj.has_previous %}
-        <a href="?page=1" class="btn btn-outline-primary mb-4">First</a>
-        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary mb-4">Previous</a>
-      {% endif %}
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <a href="?page={{num}}" class="btn btn-primary mb-4 disabled">{{num}}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a href="?page={{num}}" class="btn btn-outline-primary mb-4">{{num}}</a>
-        {% endif %}
-      {% endfor %}
-          {% if page_obj.has_next %}
-      <a href="?page={{page_obj.next_page_number}}" class="btn btn-outline-primary mb-4">Next</a>
-      <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary mb-4">Last</a>
-      {% endif %}
-    {% endif %}
+      {% include 'posts/pagination.html'%}
   </div>
   {% include 'posts/sidebar.html' %}
 </div>

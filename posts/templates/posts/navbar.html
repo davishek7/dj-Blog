@@ -34,7 +34,7 @@
           <a class="nav-link" href="{% url 'posts:about' %}">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
+          <a class="nav-link" href="{% url 'posts:search' %}"><i class="fas fa-search"></i></a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
@@ -73,7 +73,7 @@
           {% endif %}
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{% url 'posts:create-post' %}"><i class='fas fa-edit'></i>&nbsp;&nbsp;Create New Post</a>
-            <a class="dropdown-item" href="{% url 'accounts:user-profile' %}"><i class='fas fa-user-edit'></i>&nbsp;&nbsp;Update Profile</a>
+            <a class="dropdown-item" href="{% url 'accounts:dashboard' %}"><i class="far fa-address-card"></i>&nbsp;&nbsp;Dashboard</a>
             <a class="dropdown-item" href="{% url 'password_change' %}"><i class='fas fa-key'></i>&nbsp;&nbsp;Change Password</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>

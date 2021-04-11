@@ -1,4 +1,4 @@
-<div class="col-md-3">
+<div class="col-md-4">
   <div class="profile-card shadow-sm my-4">
     <img
       src="{{user.profile.profile_pic.url}}"
@@ -35,6 +35,20 @@
         </li>
         {% endfor %}
       </ul>
+    </div>
+  </div>
+  <div class="card my-4 shadow-sm">
+    <div class="card-body">
+      <h3>Latest Comments</h3>
+      <hr>
+      {% for comment in sidebar_comments %}
+      <div>
+        <a href="{{comment.post.get_absolute_url}}">{{comment.post}}</a>
+        <p><i class='fas fa-users'></i>&nbsp;{{comment.name}} <small class="text-muted">{{comment.created}}</small></p>
+        <p>{{comment.content}}</p>
+      </div>
+      <hr>
+      {% endfor %}
     </div>
   </div>
 </div>

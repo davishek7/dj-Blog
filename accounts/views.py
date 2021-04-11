@@ -53,8 +53,23 @@ class RegisterPage(FormView):
 		return super(RegisterPage, self).get(*args, **kwargs)
 
 @login_required
-def user_profile(request):
-	# posts=Post.objects.filter(author=request.user)
+def dashboard(request):
+	posts=Post.objects.all()
+
+	all_posts=posts.count()
+	drafts=posts.filter(status='draft').count()
+	published = posts.filter(status='published').count()
+
+	page=request.GET.get('page',1)
+	paginator=Paginator(posts,5)
+
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		posts=paginator.page(1)
+	except EmptyPage:
+		posts=paginator.page(paginator.num_pages)
+
 	if request.method == 'POST':
 		u_form=UserUpdateForm(request.POST,instance=request.user)
 		p_form = ProfileUpdateForm(
@@ -64,13 +79,13 @@ def user_profile(request):
 			u_form.save()
 			p_form.save()
 			messages.success(request,'Your account has been updated')
-			return redirect('accounts:user-profile')
+			return redirect('accounts:dashboard')
 	else:
 		u_form = UserUpdateForm(instance=request.user)
 		p_form = ProfileUpdateForm(instance=request.user.profile)
 
-	context={'title':f"{request.user}'s Profile",'u_form':u_form,'p_form':p_form}
-	return render(request,'accounts/user_profile.html',context)
+	context={'title':f"{request.user}'s Profile",'u_form':u_form,'p_form':p_form,'posts':posts,'all_posts':all_posts,'drafts':drafts,'published':published}
+	return render(request,'accounts/dashboard.html',context)
 
 class UserPostView(ListView):
 	template_name='accounts/user_posts_edit.html'

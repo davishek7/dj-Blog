@@ -1,42 +1,39 @@
 {% extends 'posts/layout.html' %} {% load static %}
 {% load social_share %}
+{% load hitcount_tags %}
+{% load humanize %}
 
 {% block content %}
   <!-- Post Content Column -->
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="card shadow-sm my-4">
       <!-- Title -->
       <div class="card-body">
       <h2 class="mt-4" id='post-title'><div>{{post.title}}</div>
-            <button class="btn btn-link" type="button" data-toggle="modal" data-target="#staticBackdrop">
-              <i class="fas fa-share-square"></i>
+        <div>
+            <button class="btn btn-link" type="button" data-toggle="modal" data-target="#staticBackdrop" title='Share'>
+              <i class="fas fa-share-alt"></i>
             </button>
+            <button onclick="myFunction()" class='btn btn-link' title='Copy to Clipboard'>
+              <i class='far fa-clipboard'></i>
+            </button>
+        </div>
             {% include 'posts/share_modal.html' %}
-            <!-- <input type="hidden" class="form-control" value='{{request.build_absolute_uri}}'> -->
+            <input type='text' value="{{request.build_absolute_uri}}" id="myInput" class='d-none'>
       </h2>
 
-      <small class='text-muted'>
+      <div class='text-muted'>
         Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
           Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
-          Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
-      </small>
+          Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated|naturaltime}}|
+          Views: <i class='far fa-eye'></i>&nbsp;{% get_hit_count for post %}
+      </div>
       <!-- Post Content -->
       <p class="lead">{{post.content|safe|linebreaks}}</p>
       </div>
     </div>
       <hr />
-
-      <!-- Comments Form -->
-        <h5 class="card-header">Leave a Comment:</h5>
-        <br>
-          <form method='POST' style='margin-bottom: 2px;'>
-            {% csrf_token %}
-           <div class="form-group">
-              {{comment_form.as_p}}
-          </div>
-            <button type="submit" class="btn btn-primary">Comment</button>
-          </form>
       <!-- Single Comment -->
       <br>
       {% with allcomments.count as total_comments %}
@@ -44,12 +41,8 @@
       {% endwith %}
       <hr>
       {% for comment in comments %}
-      <div class="media mt-4">
-          <div class="media-body">
-              <h6 class="mt-0">{{comment.name}}&nbsp;<small class='text-muted'>{{comment.created}}</small></h6>
+              <h6 class="mt-0"><i class='fas fa-users'></i>&nbsp;{{comment.name}}&nbsp;<small class='text-muted'>{{comment.created}}</small></h6>
               {{comment.content|linebreaks}}
-          </div>
-      </div>
       {% empty %}
       <p>There is no comment for this post.</p>
       {% endfor %}
@@ -65,9 +58,33 @@
           {% endif %}
           </ul>
         </nav>
-    {% endif %}
+      {% endif %}
+        <br>
+          <form method='POST' style='margin-bottom: 2px;'>
+            {% csrf_token %}
+           <div class="form-group-sm">
+              {{comment_form.as_p}}
+          </div>
+            <button type="submit" class="btn btn-primary">Comment</button>
+          </form>
     </div>
       {% include 'posts/sidebar.html' %}
   </div>
 
+  <script>
+    function myFunction() {
+  /* Get the text field */
+  var copyText = document.getElementById("myInput");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  alert("Copied the Post link: " + copyText.value);
+} 
+  </script>
 {% endblock %}

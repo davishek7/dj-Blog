@@ -4,7 +4,7 @@
   <!-- Blog Entries Column -->
   <div class="col-md-9">
     <h1 class="my-4">
-      {{category}}
+      All Posts in {{category}} category
     </h1>
     {% for post in posts %}
     <!-- Blog Post -->
@@ -16,8 +16,7 @@
       <div class="card-footer text-muted">
         Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
         Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
-        Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}} |
-        <a href="{% url 'posts:category_list' category.slug %}">{{post.category}}</a>
+        Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
       </div>
     </div>
     {% endfor%}
