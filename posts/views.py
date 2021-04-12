@@ -21,14 +21,18 @@ def categories(request):
 
 def sidebar_comments(request):
     return {
-        'sidebar_comments': Comment.objects.all(),
+        'sidebar_comments': Comment.objects.filter(status=True)[:5],
+    }
+def sidebar_posts(request):
+    return{
+        'sidebar_posts':Post.objects.filter(status='published')[:5]
     }
 
 class PostList(ListView):
     model=Post
     template_name='posts/index.html'
     context_object_name='posts'
-    paginate_by=5
+    paginate_by=10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -137,9 +141,9 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
         return False
 
 
-class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CommentUpdateView(LoginRequiredMixin, UpdateView):
     model = Comment
-    fields = ['body', 'status']
+    fields = ['status']
     success_url = reverse_lazy('accounts:dashboard')
 
     def form_valid(self, form):
@@ -151,28 +155,22 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['title'] = 'Update a Blog Comment'
         return context
 
-    def test_func(self):
-        comment = self.get_object()
-        if self.request.user == comment.user:
-            return True
-        return False
 
+# class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+#     model = Comment
+#     context_object_name = 'comment'
+#     success_url = reverse_lazy('accounts:dashboard')
 
-class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Comment
-    context_object_name = 'comment'
-    success_url = reverse_lazy('accounts:dashboard')
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = 'Delete a Blog Comment'
+#         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Delete a Blog Comment'
-        return context
-
-    # def test_func(self):
-    #     comment = self.get_object()
-    #     if self.request.user == comment.user:
-    #         return True
-    #     return False
+#     # def test_func(self):
+#     #     comment = self.get_object()
+#     #     if self.request.user == comment.user:
+#     #         return True
+#     #     return False
 
 def category_list(request,category_slug):
     category=get_object_or_404(Category,slug=category_slug)
@@ -184,7 +182,6 @@ def search(request):
     form = SearchForm()
     context={'form':form}
     return render(request,'posts/search.html',context)
-
 
 def about(request):
     return render(request,'posts/about.html')

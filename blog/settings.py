@@ -78,6 +78,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'posts.views.categories',
                 'accounts.views.site_user',
+                'posts.views.sidebar_posts',
                 'posts.views.sidebar_comments',
             ],
         },

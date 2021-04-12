@@ -5,6 +5,6 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('user-posts/',views.UserPostView.as_view(),name='user-posts'),
-    path('comments/', views.UserCommentView.as_view(), name='comments'),
+    path('posts-edit/',views.UserPostView.as_view(),name='posts-edit'),
+    path('comments-edit/', views.UserCommentView.as_view(), name='comments-edit'),
 ]

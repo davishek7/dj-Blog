@@ -31,16 +31,23 @@ class UserLoginForm(AuthenticationForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-    bio=forms.CharField(widget=forms.Textarea(attrs={'rows':3}),required=True)
-    twitter_id=forms.CharField(required=False)
-    github_id = forms.CharField(required=False)
+    bio = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), required=True)
+    twitter_id=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=False)
+    github_id = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), required=False)
     class Meta:
         model = Profile
         fields = ['bio', 'twitter_id', 'github_id', 'profile_pic']
 
 class UserUpdateForm(forms.ModelForm):
-    first_name=forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), required=True)
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'class': 'form-control'}), required=True)
+    first_name = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), required=True)
+    last_name = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), required=True)
     class Meta:
         model=User
-        fields=['first_name','last_name']
+        fields=['username','email','first_name','last_name']

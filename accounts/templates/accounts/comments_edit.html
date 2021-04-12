@@ -1,0 +1,39 @@
+{% extends 'posts/layout.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<div class="card shadow-sm my-4">
+<a href="{% url 'accounts:dashboard' %}" class='btn btn-outline-info'>&#8592;&nbsp;Back to Dashboard</a>
+            <div class="card-body">
+                <h4>All Comments</h4>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                <th scope="col" colspan=2>Comment</th>
+                <th scope="col">Post</th>
+                <th scope="col">Status</th>
+                <th scope='col'>Date</th>
+                <th class='text-center' scope="col">Update</th>
+                </tr>
+            </thead>
+            {% for comment in comments %}
+            <tbody>
+                <tr>
+                <td colspan=2>{{comment.content|safe}}</td>
+                <td><a href="{{comment.post.get_absolute_url}}">{{comment.post.title}}</a></td>
+                <td style='text-transform: capitalize;'>{{comment.status}}</td>
+                <td>{{comment.created}}</td>
+                <td class='text-center'><a href="{% url 'posts:comment-edit' comment.id %}"><i class='fas fa-edit'></i></a></td>
+                </tr>
+            </tbody>
+            {% empty %}
+            <p>No comment found.</p>
+            {% endfor %}
+        </table>
+            <!-- Pagination -->
+            {% include 'posts/pagination.html' %}
+            </div>
+        </div>
+{% endblock %}

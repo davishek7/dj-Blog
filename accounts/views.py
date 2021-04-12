@@ -54,21 +54,12 @@ class RegisterPage(FormView):
 
 @login_required
 def dashboard(request):
-	posts=Post.objects.all()
+	posts=Post.objects.all()[:5]
+	comments=Comment.objects.all()[:5]
 
-	all_posts=posts.count()
-	drafts=posts.filter(status='draft').count()
-	published = posts.filter(status='published').count()
-
-	page=request.GET.get('page',1)
-	paginator=Paginator(posts,5)
-
-	try:
-		posts = paginator.page(page)
-	except PageNotAnInteger:
-		posts=paginator.page(1)
-	except EmptyPage:
-		posts=paginator.page(paginator.num_pages)
+	all_posts = Post.objects.all().count()
+	drafts = Post.objects.filter(status='draft').count()
+	published = Post.objects.filter(status='published').count()
 
 	if request.method == 'POST':
 		u_form=UserUpdateForm(request.POST,instance=request.user)
@@ -84,25 +75,21 @@ def dashboard(request):
 		u_form = UserUpdateForm(instance=request.user)
 		p_form = ProfileUpdateForm(instance=request.user.profile)
 
-	context={'title':f"{request.user}'s Profile",'u_form':u_form,'p_form':p_form,'posts':posts,'all_posts':all_posts,'drafts':drafts,'published':published}
+	context={'title':"Admin Dashboard",'u_form':u_form,'p_form':p_form,'posts':posts,'all_posts':all_posts,'drafts':drafts,'published':published,'comments':comments}
 	return render(request,'accounts/dashboard.html',context)
 
 class UserPostView(ListView):
-	template_name='accounts/user_posts_edit.html'
+	template_name='accounts/posts_edit.html'
 	context_object_name='posts'
 	paginate_by=10
 
 	def get_queryset(self):
-		return Post.objects.filter(author=self.request.user)
+		return Post.objects.all()
 
 class UserCommentView(ListView):
-	template_name='accounts/user_comments.html'
+	template_name='accounts/comments_edit.html'
 	context_object_name='comments'
 	paginate_by=10
 
 	def get_queryset(self):
-		return Comment.objects.filter(user=self.request.user)
-
-
-
-
+		return Comment.objects.all()

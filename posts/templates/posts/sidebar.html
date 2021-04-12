@@ -1,3 +1,4 @@
+{% load humanize %}
 <div class="col-md-4">
   <div class="profile-card shadow-sm my-4">
     <img
@@ -30,11 +31,24 @@
           class="list-group-item d-flex justify-content-between align-items-center"
         >
           <a href="{% url 'posts:category_list' category.slug %}"
-            >{{category.name}}</a
+            ><i class="fas fa-list"></i>&nbsp;{{category.name}}</a
           >
         </li>
         {% endfor %}
       </ul>
+    </div>
+  </div>
+    <div class="card my-4 shadow-sm">
+    <div class="card-body">
+      <h3>Latest Posts</h3>
+      <hr>
+      {% for post in sidebar_posts %}
+      <div>
+        <h3><a href="{{post.get_absolute_url}}">{{post.title}}</a></h3>
+        <small class="text-muted"><i class="far fa-clock"></i>&nbsp;{{post.created|naturaltime}} | <i class="fas fa-list"></i>&nbsp;{{post.category.name}}</small></p>
+      </div>
+      <hr>
+      {% endfor %}
     </div>
   </div>
   <div class="card my-4 shadow-sm">
@@ -43,9 +57,9 @@
       <hr>
       {% for comment in sidebar_comments %}
       <div>
-        <a href="{{comment.post.get_absolute_url}}">{{comment.post}}</a>
+        <h3><a href="{{comment.post.get_absolute_url}}">{{comment.post}}</a></h3>
         <p><i class='fas fa-users'></i>&nbsp;{{comment.name}} <small class="text-muted">{{comment.created}}</small></p>
-        <p>{{comment.content}}</p>
+        <p><i class="fas fa-comment-alt"></i>&nbsp;{{comment.content}}</p>
       </div>
       <hr>
       {% endfor %}

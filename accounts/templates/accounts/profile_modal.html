@@ -1,0 +1,89 @@
+
+<!-- Profile Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="staticBackdropLabel">Profile</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<div class="row">
+
+  <div class="col-md-4">
+    <div class="card my-4">
+        <h5 class='my-3 text-center'>Your Details</h5>
+        <hr>
+      <div class="card-body text-center">
+        <img src="{{request.user.profile.profile_pic.url}}" alt="" style='border-radius: 50%;'>
+        <hr>
+        <p>Username: {{request.user.username}}</p>
+        <p>Email: {{request.user.email}}</p>
+        <p>Name: {{request.user.first_name}} {{request.user.last_name}}</p>
+        <p>Bio: {{request.user.profile.bio}}</p>
+        <p>Twitter: {{request.user.profile.twitter_id}}</p>
+        <p>Github: {{request.user.profile.github_id}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="card my-4">
+        <h5 class='my-3 text-center' >Update Your Details</h5>
+        <hr>
+      <div class="card-body">
+        <form action="" method='POST' enctype='multipart/form-data'>
+          {% csrf_token %}
+          <!-- {{u_form.as_p}}
+          {{p_form.as_p}} -->
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label>{{u_form.username.label}}</label>
+                  {{u_form.username}}
+              </div>
+              <div class="form-group col-md-6">
+                  <label>{{u_form.email.label}}</label>
+                  {{u_form.email}}
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label>{{u_form.first_name.label}}</label>
+                  {{u_form.first_name}}
+              </div>
+              <div class="form-group col-md-6">
+                  <label>{{u_form.last_name.label}}</label>
+                  {{u_form.last_name}}
+              </div>
+          </div>
+          <div class="form-group">
+                <label>{{p_form.bio.label}}</label>
+                {{p_form.bio}}              
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{p_form.twitter_id.label}}</label>
+                {{p_form.twitter_id}} 
+              </div>
+              <div class="form-group col-md-6">
+                <label>{{p_form.github_id.label}}</label>
+                {{p_form.github_id}} 
+              </div>
+          </div>
+          <div class="form-group">
+                <label>{{p_form.profile_pic.label}}</label>
+                {{p_form.profile_pic}}              
+          </div>
+        <button class="btn btn-primary" type='submit'>Update Information</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+    </div>
+  </div>
+</div>

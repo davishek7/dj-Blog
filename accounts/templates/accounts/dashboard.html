@@ -9,68 +9,83 @@
   <h1 class="text-center my-4">User Dashboard</h1>
   <hr>
   {% include 'accounts/status.html' %}
-  <hr>
-    <div class="row">
-        <div class="col-md-5 my-4">
-            <h5>Your Details</h5>
             <hr>
-            <div class="card shadow-sm">
+            <div class="card shadow-sm my-4">
                 <div class="card-body">
                 <table class="table table-sm">
+                    <h4>Your Profile</h4>
                     <tr>
+                        <th>Name</th>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Action</th>
                     </tr>
                     <tr>
+                        <td>{{user.first_name}} {{user.last_name}}</td>
                         <td>{{user.username}}</td>
                         <td>{{user.email}}</td>
-                        <td><a class="btn btn-sm btn-warning" href="#">Update Your Profile</a></td>
+                        <!-- <td><a class="btn btn-outline-warning" href="#">Update</a></td> -->
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                                Update
+                            </button>
+                            {% include 'accounts/profile_modal.html' %}
+                        </td>
                     </tr>
                 </table>
                 </div>
-
             </div>
-        </div>
-        <div class="col-md-7 my-4">
-            <h5>Latest Posts</h5>
-            <hr>
-            <div class="card shadow-sm">
+
+            <div class="card shadow-sm my-4">
                 <div class="card-body">
-                <table class="table table-sm">
-                    <tr>
-                        <th colspan='2'>Title</th>
-                        <th>Last Updated</th>
-                        <th>Status</th>
-                        <th>Update</th>
-                        <th>Remove</th>
-                    </tr>
-                    {%for post in posts%}
-                    <tr>
-                        <td colspan='2'>{{post.title}}</td>
-                        <td>{{post.updated|naturaltime}}</td>
-                        <td style='text-transform: capitalize;'>{{post.status}}</td>
-                        <td class='text-center'><a href="{% url 'posts:update-post' post.slug %}"><i class='fas fa-edit'></i></a></td>
-                        <td class='text-center'><a href="{% url 'posts:delete-post' post.slug %}"><i class='fas fa-trash text-danger'></i></a></td>
-                    </tr>
-                    {%endfor%}
-                </table>
-                    {% if posts.has_other_pages %}
-                        <nav aria-label="Page navigation conatiner"></nav>
-                        <ul class="pagination pagination-sm justify-content-center">
-                            {% if posts.has_previous %}
-                            <li><a href="?page={{ posts.previous_page_number }}" class="btn btn-light">&laquo; Previous </a></li>
-                            {% endif %}
-                            {% if posts.has_next %}
-                            <li><a href="?page={{ posts.next_page_number }}" class="btn btn-light"> Next &raquo;</a></li>
-                        {% endif %}
-                        </ul>
-                        </nav>
-                    {% endif %}
+                    <table class="table table-sm">
+                        <h4>Latest Posts</h4>
+                        <tr>
+                            <th colspan='2'>Title</th>
+                            <th>Last Updated</th>
+                            <th>Status</th>
+                            <th class='text-center'>Update</th>
+                            <th class='text-center'>Remove</th>
+                        </tr>
+                        {%for post in posts%}
+                        <tr>
+                            <td colspan='2'><a href="{{post.get_absolute_url}}">{{post.title}}</a></td>
+                            <td>{{post.updated|naturaltime}}</td>
+                            <td style='text-transform: capitalize;'>{{post.status}}</td>
+                            <td class='text-center'><a href="{% url 'posts:update-post' post.slug %}"><i class='fas fa-edit'></i></a></td>
+                            <td class='text-center'><a href="{% url 'posts:delete-post' post.slug %}"><i class='fas fa-trash text-danger'></i></a></td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                    <a href="{% url 'accounts:posts-edit' %}" class="btn btn-outline-info btn-block">All Posts</a>
                 </div>
-
             </div>
-        </div>
-    </div>
+
+            <div class="card shadow-sm my-4">
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <h4>Latest Comments</h4>
+                        <tr>
+                            <th colspan='2'>Comment</th>
+                            <th>Post</th>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th class='text-center'>Update</th>
+                        </tr>
+                        {%for comment in comments%}
+                        <tr>
+                            <td colspan='2'>{{comment.content}}</td>
+                            <td><a href="{{comment.post.get_absolute_url}}">{{comment.post}}</a></td>
+                            <td>{{comment.name}}</td>
+                            <td style='text-transform: capitalize;'>{{comment.created|naturaltime}}</td>
+                            <td>{{comment.status}}</td>
+                            <td class='text-center'><a href="{% url 'posts:comment-edit' comment.id %}"><i class='fas fa-edit'></i></a></td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+                    <a href="{% url 'accounts:comments-edit' %}" class="btn btn-outline-info btn-block">All Comments</a>
+                </div>
+            </div>
  
 {% endblock %}
