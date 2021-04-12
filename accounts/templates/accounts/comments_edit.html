@@ -7,8 +7,9 @@
 <div class="card shadow-sm my-4">
 <a href="{% url 'accounts:dashboard' %}" class='btn btn-outline-info'>&#8592;&nbsp;Back to Dashboard</a>
             <div class="card-body">
-                <h4>All Comments</h4>
-        <table class="table table-sm">
+        <h4>All Comments</h4>
+        <div class="table-responsive">
+        <table class="table table-sm table-bordered">
             <thead>
                 <tr>
                 <th scope="col" colspan=2>Comment</th>
@@ -32,6 +33,7 @@
             <p>No comment found.</p>
             {% endfor %}
         </table>
+        </div>
             <!-- Pagination -->
             {% include 'posts/pagination.html' %}
             </div>

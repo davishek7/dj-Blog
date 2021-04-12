@@ -13,6 +13,7 @@ from .forms import NewCommentForm, PostForm, SearchForm
 from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin
+from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 
 def categories(request):
     return {
@@ -155,23 +156,6 @@ class CommentUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = 'Update a Blog Comment'
         return context
 
-
-# class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-#     model = Comment
-#     context_object_name = 'comment'
-#     success_url = reverse_lazy('accounts:dashboard')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Delete a Blog Comment'
-#         return context
-
-#     # def test_func(self):
-#     #     comment = self.get_object()
-#     #     if self.request.user == comment.user:
-#     #         return True
-#     #     return False
-
 def category_list(request,category_slug):
     category=get_object_or_404(Category,slug=category_slug)
     posts=Post.objects.filter(category=category)
@@ -180,8 +164,27 @@ def category_list(request,category_slug):
 
 def search(request):
     form = SearchForm()
-    context={'form':form}
-    return render(request,'posts/search.html',context)
+    q=''
+    results = []
+
+    if 'q' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            q=form.cleaned_data['q']
+
+            vector = SearchVector('title',weight='A')+\
+                SearchVector('content',weight='B')
+                
+            query = SearchQuery(q)
+
+            results = Post.objects.annotate(rank=SearchRank(vector,query,cover_density=True)).order_by('-rank')
+
+            results = Post.objects.annotate(
+                search=SearchVector('title','content',),).filter(search=SearchQuery(q))
+
+    context = {'form': form, 'q': q, 'results':results}
+    return render(request, 'posts/search.html', context)
+
 
 def about(request):
     return render(request,'posts/about.html')

@@ -8,7 +8,8 @@
 <a href="{% url 'accounts:dashboard' %}" class='btn btn-outline-info'>&#8592;&nbsp;Back to Dashboard</a>
             <div class="card-body">
                 <h4>All Posts</h4>
-        <table class="table table-sm">
+        <div class="table-responsive">
+        <table class="table table-sm table-bordered">
             <thead>
                 <tr>
                 <th scope="col" colspan=2>Title</th>
@@ -34,6 +35,7 @@
             <p>No post found.</p>
             {% endfor %}
         </table>
+        </div>
             <!-- Pagination -->
             {% include 'posts/pagination.html' %}
             </div>

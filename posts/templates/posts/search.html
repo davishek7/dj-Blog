@@ -1,8 +1,33 @@
 {% extends 'posts/layout.html' %} {% block content %}
 
-<form action="" method="get">
-    {{form.as_p}}
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
+<div class="card my-4 shadow-sm">
+    <div class="card-body">
+        <form method="get">
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+</div>
+{% if q %}
+<div class="card shadow-sm my-4">
+    <div class="card-body">
+        <ul>
+            <h2>Posts containing "{{ q }}"</h2>
+            <p>
+                {% with results.count as total_results %}
+                Found {{ total_results }} result{{ total_results|pluralize }}
+                {% endwith %}
+            </p>
+            
+                {% for post in results %}
+                <li>
+                    <h4><a href="{{post.get_absolute_url}}">{{post.title}}</a></h4>
+                </li>
+                {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
 
 {% endblock %}

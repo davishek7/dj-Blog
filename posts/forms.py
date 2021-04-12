@@ -40,6 +40,6 @@ class PostForm(forms.ModelForm):
         fields=['title','category','content','status']
 
 class SearchForm(forms.Form):
-    Search = forms.CharField(required=True)
+    q = forms.CharField(label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Search for Post'}),required=True)
 
 

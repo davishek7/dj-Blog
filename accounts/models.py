@@ -10,7 +10,7 @@ class Profile(models.Model):
     twitter_id=models.CharField(max_length=100,blank=True,null=True)
     github_id = models.CharField(max_length=100, blank=True, null=True)
     profile_pic = models.ImageField(default='profile_pic.png',
-                                    upload_to='profile_pics/', null=True, blank=True)
+                                    upload_to='profile_pics', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now=True)
 
