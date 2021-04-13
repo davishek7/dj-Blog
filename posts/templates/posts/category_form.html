@@ -1,0 +1,16 @@
+{% extends 'posts/layout.html' %} {% load static %} {% block content %}
+
+  <div class="card my-4 shadow-sm account-container">
+    <div class="card-body">
+      <h3>Add a Category</h3>
+      <hr>
+      <form action="" method='POST'>
+          {% csrf_token %}
+          {{form.as_p}}
+          <button type="submit" class="btn btn-primary">
+            <i class='fas fa-plus'></i>&nbsp;Create Category
+          </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

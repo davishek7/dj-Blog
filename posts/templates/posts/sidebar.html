@@ -1,44 +1,35 @@
 {% load humanize %}
 <div class="col-md-4">
-  <div class="profile-card shadow-sm my-4">
-    <img
-      src="{{user.profile.profile_pic.url}}"
-      alt="author"
-      style="height: 50%; border-radius: 50%"
-    />
-    <h1>{{user.first_name}} {{user.last_name}}</h1>
-    <p class="title">{{user.username}}</p>
-    <p>{{post.author.profile.bio}}</p>
-    <a
-      href="https://twitter.com/{{user.profile.twitter_id}}"
-      target="_blank"
-      ><i class="fa fa-twitter text-info" style="font-size: 36px"></i
-    ></a>
-    <a
-      href="https://github.com/{{user.profile.github_id}}"
-      target="_blank"
-      ><i class="fa fa-github text-dark" style="font-size: 36px"></i
-    ></a>
-    <p><button class="btn btn-primary button">Contact</button></p>
-  </div>
+
+  <!-- Profile Card -->
+
   <div class="card my-4 shadow-sm">
-    <div class="card-body">
-      <h3>Categories</h3>
-      <hr />
-      <ul class="list-group">
-        {% for category in categories %}
-        <li
-          class="list-group-item d-flex justify-content-between align-items-center"
-        >
-          <a href="{% url 'posts:category_list' category.slug %}"
-            ><i class="fas fa-list"></i>&nbsp;{{category.name}}</a
-          >
-        </li>
-        {% endfor %}
-      </ul>
+    <div class="card-body text-center">
+      <img
+        src="{{user.profile.profile_pic.url}}"
+        alt="author"
+        class="rounded-circle"
+      />
+      <h1>{{user.first_name}} {{user.last_name}}</h1>
+      <!-- <p class="title">{{user.username}}</p> -->
+      <p>{{user.profile.bio}}</p>
+      <a
+        href="https://twitter.com/{{user.profile.twitter_id}}"
+        target="_blank"
+        ><i class="fa fa-twitter text-info" style="font-size: 36px"></i
+      ></a>
+      <a
+        href="https://github.com/{{user.profile.github_id}}"
+        target="_blank"
+        ><i class="fa fa-github text-dark" style="font-size: 36px"></i
+      ></a>
+      <a href="{% url 'posts:about' %}"><i class="fas fa-envelope-square text-warning" style="font-size:36px"></i></a>
     </div>
   </div>
-    <div class="card my-4 shadow-sm">
+
+  <!-- Post Card -->
+
+  <div class="card my-4 shadow-sm">
     <div class="card-body">
       <h3>Latest Posts</h3>
       <hr>
@@ -51,6 +42,9 @@
       {% endfor %}
     </div>
   </div>
+
+  <!-- Comment Card -->
+
   <div class="card my-4 shadow-sm">
     <div class="card-body">
       <h3>Latest Comments</h3>

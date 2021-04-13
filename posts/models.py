@@ -28,12 +28,12 @@ class Post(models.Model):
         ('published','Published')
     )
     category=models.ForeignKey(Category,related_name='product',default=1,on_delete=models.SET_NULL,null=True,blank=True)
-    title = models.CharField(max_length=200, blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True, null=True,db_index=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    content = RichTextUploadingField(blank=True, null=True)
+    content = RichTextUploadingField(blank=True, null=True, db_index=True)
     status=models.CharField(max_length=10,choices=options,default='draft')
 
     class Meta:

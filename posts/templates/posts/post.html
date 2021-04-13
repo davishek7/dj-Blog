@@ -5,11 +5,25 @@
 
 {% block content %}
   <!-- Post Content Column -->
-  <div class="row">
-    <div class="col-md-8">
-      <div class="card shadow-sm my-4">
+  <div class="card shadow-sm my-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">
+          <img src="{{post.author.profile.profile_pic.url}}" class='rounded-circle' width='125' height='125'>
+        </div>
+        <div class="col-md-10">
+          <p style='font-size: 24px;'>By <b>{{post.author.first_name}} {{post.author.last_name}}</b></p>
+          <p class='text-muted'>{{post.author.profile.bio}}</p>
+          <p><a href="https://twitter.com/{{post.author.profile.twitter_id}}" target="_blank"><i class="fa fa-twitter text-info" style="font-size: 24px"></i></a>
+                <a href="https://github.com/{{user.profile.github_id}}" target="_blank"><i class="fa fa-github text-dark" style="font-size: 24px"></i></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card shadow-sm my-4">
       <!-- Title -->
-      <div class="card-body">
+    <div class="card-body">
       <h2 class="mt-4" id='post-title'><div>{{post.title}}</div>
         <div>
             <button class="btn btn-link" type="button" data-toggle="modal" data-target="#staticBackdrop" title='Share'>
@@ -24,15 +38,14 @@
       </h2>
 
       <div class='text-muted'>
-        Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> |
+        <!-- Published by: <a href="#"><i class='fas fa-user-tie'></i>&nbsp;{{post.author}}</a> | -->
           Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.created}} |
-          Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated|naturaltime}}|
+          Updated: <i class='fas fa-clock'></i>&nbsp;{{post.updated|naturaltime}}|
+          Comments: <i class="fas fa-comment-alt"></i>&nbsp;{{allcomments.count}}|
           Views: <i class='far fa-eye'></i>&nbsp;{% get_hit_count for post %}
       </div>
       <!-- Post Content -->
       <p class="lead">{{post.content|safe|linebreaks}}</p>
-      </div>
-    </div>
       <hr />
       <!-- Single Comment -->
       <br>
@@ -68,7 +81,6 @@
             <button type="submit" class="btn btn-primary">Comment</button>
           </form>
     </div>
-      {% include 'posts/sidebar.html' %}
   </div>
 
   <script>

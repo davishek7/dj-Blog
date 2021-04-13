@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment,Category
-from .forms import NewCommentForm, PostForm, SearchForm
+from .forms import NewCommentForm, PostForm, SearchForm,CategoryForm
 from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin
@@ -117,7 +117,6 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
         context['title'] = 'Update a Blogpost'
         return context
 
-    
     def test_func(self):
         post=self.get_object()
         if self.request.user==post.author:
@@ -161,6 +160,17 @@ def category_list(request,category_slug):
     posts=Post.objects.filter(category=category)
     context={'category':category,'posts':posts,'title':category.name}
     return render(request,'posts/category.html',context)
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class=CategoryForm
+    success_url = reverse_lazy('posts:all-posts')
+
+    def form_valid(self,form):
+        form.instance.slug = slugify(form.instance.name)
+        return super(CategoryCreateView,self).form_valid(form)
+
 
 def search(request):
     form = SearchForm()

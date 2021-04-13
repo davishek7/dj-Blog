@@ -28,6 +28,10 @@
           {% for category in categories %}
           <a class="dropdown-item" href="{% url 'posts:category_list' category.slug %}"><i class="fas fa-list"></i>&nbsp;{{category.name|title}}</a>
           {% endfor %}
+          {% if request.user.is_authenticated %}
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'posts:create-category' %}" class="dropdown-item"><i class='fas fa-plus'></i>&nbsp;Add a Category</a>
+          {% endif %}
         </div>
       </li>
         <li class="nav-item">

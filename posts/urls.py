@@ -13,6 +13,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('posts/<slug:slug>/',views.post_detail,name='post-detail'),
     path('category/<slug:category_slug>/',views.category_list,name='category_list'),
+    path('create-category/', views.CategoryCreateView.as_view(), name='create-category'),
     path('comment-edit/<int:pk>/',views.CommentUpdateView.as_view(),name='comment-edit'),
     path('about/', views.about, name='about'),
 

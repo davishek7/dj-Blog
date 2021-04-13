@@ -1,3 +1,6 @@
+body {
+  background-color: ivory;
+}
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -7,7 +10,7 @@ textarea {
   padding: 5px;
   width: 100%;
 }
-select{
+select {
   border: 1px solid;
   border-radius: 5px;
   padding: 5px;
@@ -17,7 +20,7 @@ label {
   padding-top: 10px !important;
   display: block;
 }
-#profile-pic{
+#profile-pic {
   width: 30px;
   height: 30px;
 }
@@ -38,34 +41,10 @@ label {
   -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
   box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
 }
-main{
+main {
   min-height: 85vh;
 }
-#post-title{
+#post-title {
   display: flex;
   justify-content: space-between;
-}
-.profile-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-}
-
-.title {
-  color: grey;
-  font-size: 18px;
-}
-
-.button {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
 }

@@ -39,6 +39,14 @@ class PostForm(forms.ModelForm):
         model=Post
         fields=['title','category','content','status']
 
+class CategoryForm(forms.ModelForm):
+    name = forms.CharField(label='', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter category name'}), required=True)
+
+    class Meta:
+        model = Category
+        fields=['name']
+
 class SearchForm(forms.Form):
     q = forms.CharField(label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Search for Post'}),required=True)
 
