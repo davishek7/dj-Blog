@@ -7,7 +7,9 @@
 <div class="card shadow-sm my-4"">
 <a href="{% url 'accounts:dashboard' %}" class='btn btn-outline-info'>&#8592;&nbsp;Back to Dashboard</a>
             <div class="card-body">
-                <h4>All Posts</h4>
+        <h4>All Posts</h4>
+        <input class="form-control" id="myInput" type="search" placeholder="Search in Posts..">
+        <br>
         <div class="table-responsive">
         <table class="table table-sm table-bordered">
             <thead>
@@ -21,7 +23,7 @@
                 </tr>
             </thead>
             {% for post in posts %}
-            <tbody>
+            <tbody id='myTable'>
                 <tr>
                 <td colspan=2><a href="{{post.get_absolute_url}}">{{post.title}}</a></td>
                 <td>{{post.category}}</td>
@@ -40,4 +42,15 @@
             {% include 'posts/pagination.html' %}
             </div>
         </div>
+
+        <script>
+            $(document).ready(function(){
+              $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
+        </script>
 {% endblock %}

@@ -35,7 +35,8 @@ class ProfileUpdateForm(forms.ModelForm):
     twitter_id=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=False)
     github_id = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'form-control'}), required=False)
-    profile_pic = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control-file'}))
+    profile_pic = forms.ImageField(widget=forms.FileInput(
+        attrs={'class': 'form-control-file'}))
     class Meta:
         model = Profile
         fields = ['bio', 'twitter_id', 'github_id', 'profile_pic']

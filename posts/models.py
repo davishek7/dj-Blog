@@ -1,12 +1,10 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
-
-def user_directory_path(instance, filename):
-    return f"posts/{instance.id}/{filename}"
 
 class Category(models.Model):
     name=models.CharField(max_length=200,db_index=True)
@@ -30,6 +28,7 @@ class Post(models.Model):
     category=models.ForeignKey(Category,related_name='product',default=1,on_delete=models.SET_NULL,null=True,blank=True)
     title = models.CharField(max_length=200, blank=True, null=True,db_index=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
+    published=models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -37,7 +36,7 @@ class Post(models.Model):
     status=models.CharField(max_length=10,choices=options,default='draft')
 
     class Meta:
-        ordering=['-created']
+        ordering=['-published']
 
     def get_absolute_url(self):
         return reverse('posts:post-detail', args=[self.slug])

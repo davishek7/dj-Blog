@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'posts:all-posts' %}">Blog</a>
+    <a class="navbar-brand" href="{% url 'posts:all-posts' %}" style="font-family: 'Roboto', sans-serif">AVISHEK<span class='text-info'>DJANGO</span>BLOG</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -43,14 +43,6 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          <img
-            class="d-flex mr-3 rounded-circle"
-            src="{{user.profile.profile_pic.url}}"
-            alt="profile pic"
-            id="profile-pic"
-          />
-        </li>
         <li class="nav-item dropdown">
           {% if request.user.is_superuser %}
           <a

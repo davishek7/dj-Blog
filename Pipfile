@@ -15,6 +15,7 @@ django-social-share = "*"
 django-admin-honeypot = "*"
 python-dotenv = "*"
 django-hitcount = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 

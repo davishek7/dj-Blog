@@ -1,3 +1,4 @@
+{% load cloudinary %}
 
 <!-- Profile Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -17,14 +18,33 @@
         <h5 class='my-3 text-center'>Your Details</h5>
         <hr>
       <div class="card-body text-center">
-        <img src="{{request.user.profile.profile_pic.url}}" alt="" style='border-radius: 50%;'>
+        <img src="{{request.user.profile.profile_pic.url}}" alt="Profile Picture" width='300' height='300'  class="rounded">
         <hr>
-        <p>Username: {{request.user.username}}</p>
-        <p>Email: {{request.user.email}}</p>
-        <p>Name: {{request.user.first_name}} {{request.user.last_name}}</p>
-        <p>Bio: {{request.user.profile.bio}}</p>
-        <p>Twitter: {{request.user.profile.twitter_id}}</p>
-        <p>Github: {{request.user.profile.github_id}}</p>
+        <div class="table-responsive">
+          <table class="table table-sm table-borderless" style='text-align: justify;'>
+            <tr>
+              <th scope="row">Username</th>
+              <td colspan='2'>{{user.username}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Name</th>
+              <td colspan='2'>{{user.first_name}} {{user.last_name}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Bio</th>
+              <td colspan='2'>{{user.profile.bio}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Twitter Id</th>
+              <td colspan='2'>{{user.profile.twitter_id}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Github_id</th>
+              <td colspan='2'>{{user.profile.github_id}}</td>
+            </tr>
+          </table>
+        </div>
+
       </div>
     </div>
   </div>
@@ -71,8 +91,8 @@
               </div>
           </div>
           <div class="form-group">
-                <label>{{p_form.profile_pic.label}}</label>
-                {{p_form.profile_pic}}              
+            <label>{{p_form.profile_pic.label}}</label>
+            {{p_form.profile_pic}}
           </div>
         <button class="btn btn-outline-primary" type='submit'><i class='fas fa-user-check'></i>&nbsp;Update Information</button>
         </form>

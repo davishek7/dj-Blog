@@ -5,17 +5,19 @@
 
 {% block content %}
   <!-- Post Content Column -->
+<div class="col-md-10 mx-auto">
   <div class="card shadow-sm my-4">
     <div class="card-body">
       <div class="row">
         <div class="col-md-2">
-          <img src="{{post.author.profile.profile_pic.url}}" class='rounded-circle' width='125' height='125'>
+          <img src="{{post.author.profile.profile_pic.url}}" class='rounded' width='125' height='125'>
         </div>
         <div class="col-md-10">
-          <p style='font-size: 24px;'>By <b>{{post.author.first_name}} {{post.author.last_name}}</b></p>
-          <p class='text-muted'>{{post.author.profile.bio}}</p>
-          <p><a href="https://twitter.com/{{post.author.profile.twitter_id}}" target="_blank"><i class="fa fa-twitter text-info" style="font-size: 24px"></i></a>
-                <a href="https://github.com/{{user.profile.github_id}}" target="_blank"><i class="fa fa-github text-dark" style="font-size: 24px"></i></a>
+          <p style='font-size: 20px;'>By <b>{{post.author.first_name}} {{post.author.last_name}}</b></p>
+          <p class='text-muted' style='font-size: 15px;'>{{post.author.profile.bio}}</p>
+          <p><a href="https://twitter.com/{{post.author.profile.twitter_id}}" target="_blank"><i class="fa fa-twitter text-info" style="font-size: 24px"></i></a>&nbsp;
+              <a href="https://github.com/{{user.profile.github_id}}" target="_blank"><i class="fa fa-github text-dark" style="font-size: 24px"></i></a>&nbsp;
+              <a href="{% url 'posts:about' %}"><i class="fas fa-envelope-square text-warning" style="font-size:24px"></i></a>&nbsp;
           </p>
         </div>
       </div>
@@ -82,7 +84,7 @@
           </form>
     </div>
   </div>
-
+</div>
   <script>
     function myFunction() {
   /* Get the text field */
