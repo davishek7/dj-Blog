@@ -159,7 +159,8 @@ CLOUDINARY_STORAGE = {
 
 
 if os.getcwd() == '/app':
+    pass
 
-    DEBUG = False
+    # DEBUG = False
 
     
