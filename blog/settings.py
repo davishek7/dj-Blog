@@ -157,5 +157,13 @@ CLOUDINARY_STORAGE = {
 
 
 if os.getcwd() == '/app':
+    
     DEBUG = False
+
+    MEDIA_URL = '/blog_media/'
+
+    CKEDITOR_UPLOAD_PATH = "uploads/"
+
+    MEDIA_ROOT = BASE_DIR / 'blog_media'
+
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
