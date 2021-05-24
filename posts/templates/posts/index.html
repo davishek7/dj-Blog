@@ -1,4 +1,6 @@
-{% extends 'posts/layout.html' %} {% block content %}
+{% extends 'posts/layout.html' %}
+{% load hitcount_tags %}
+{% block content %}
 
   <!-- Jumbotron -->
     <div class="jumbotron jumbotron-fluid my-4 bg-light">
@@ -15,13 +17,17 @@
     <!-- Blog Post -->
     <div class="card my-4 shadow-sm">
       <div class="card-body">
-        <h3 class="card-title">{{post.title}}</h3>
+        <h3 class="card-title text-center">{{post.title}}</h3>
+        <img class="img-thumbnail" src="{{post.image.url}}" width="100%" height="50%"></img>
         <a href="{{post.get_absolute_url}}" class='btn btn-light' ><i class="fab fa-readme"></i>&nbsp;Read</a>
       </div>
       <div class="card-footer text-muted">
         Published by: <a href="{% url 'posts:about' %}"><i class='fas fa-user-tie'></i>&nbsp;{{post.author.first_name}} {{post.author.last_name}}</a> |
         Posted: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.published}} |
-        Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}}
+        Updated: <i class='fas fa-calendar-alt'></i>&nbsp;{{post.updated}} |
+        Comments: {{post.comments.count}} |
+        Views : {% get_hit_count for post %} |
+        Category : <a href="{{ post.category.get_absolute_url }}">{{post.category.name}}</a>
       </div>
     </div>
     {% endfor%}

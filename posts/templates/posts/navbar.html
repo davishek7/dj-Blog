@@ -26,7 +26,11 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           {% for category in categories %}
-          <a class="dropdown-item" href="{% url 'posts:category_list' category.slug %}"><i class="fas fa-list"></i>&nbsp;{{category.name|title}}</a>
+          <a class="dropdown-item d-flex justify-content-between" 
+            href="{% url 'posts:category_list' category.slug %}">
+            {{category.name|title}}
+            <span>{{category.post.count}}</span>
+          </a>
           {% endfor %}
           {% if request.user.is_authenticated %}
           <div class="dropdown-divider"></div>
