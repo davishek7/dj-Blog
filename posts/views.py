@@ -64,13 +64,6 @@ def post_detail(request,slug):
         hitcontext['hit_message'] = hit_count_response.hit_message
         hitcontext['total_hits'] = hits
 
-    try:
-        comments = paginator.page(page)
-    except PageNotAnInteger:
-        comments=paginator.page(1)
-    except EmptyPage:
-        comments=paginator.page(paginator.num_pages)
-
     user_comment=None
 
     if request.method=='POST':
@@ -83,7 +76,7 @@ def post_detail(request,slug):
     else:
         comment_form = NewCommentForm()
     context = {'post': post, 'comment_form': comment_form,'allcomments':allcomments,
-               'comments': user_comment,'comments': comments, 'title': post.title}
+               'comments': user_comment,'title': post.title}
     return render(request,'posts/post.html',context)
 
 

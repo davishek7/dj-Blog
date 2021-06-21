@@ -7,11 +7,11 @@ from ckeditor_uploader.fields import RichTextUploadingFormField
 
 class NewCommentForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': 'Your name', 'class': 'form-control'}))
+        attrs={'placeholder': 'Your name', 'class': 'form-control mb-2'}))
     email = forms.EmailField(widget=forms.EmailInput(
-        attrs={'placeholder': 'Your email', 'class': 'form-control'}))
+        attrs={'placeholder': 'Your email', 'class': 'form-control mb-2'}))
     content = forms.CharField(widget=forms.Textarea(
-        attrs={'rows': 5, 'placeholder': 'Your comment','class':'form-control'}))
+        attrs={'rows': 5, 'placeholder': 'Your comment','class':'form-control mb-2'}))
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
