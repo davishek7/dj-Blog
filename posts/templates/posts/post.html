@@ -58,17 +58,21 @@
         <hr>
         <form method='POST' class='mb-2'>
           {% csrf_token %}
-          <div class="form-group-sm">
+          <div class="form-group">
             {{comment_form.content}}
+          </div>
             <div class="row">
               <div class="col-6">
-                {{comment_form.name}}
+                <div class="form-group">
+                  {{comment_form.name}}
+                </div>
               </div>
               <div class="col-6">
-                {{comment_form.email}}
+                <div class="form-group">
+                  {{comment_form.email}}
+                </div>
               </div>
             </div>
-          </div>
           <button type="submit" class="btn btn-primary">Comment</button>
         </form>
       </div>
