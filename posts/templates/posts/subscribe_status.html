@@ -1,0 +1,8 @@
+{% extends 'posts/layout.html' %} 
+{% block content %}
+
+{% for message in messages %}
+<div class="alert alert-{{message.tags}}">{{message}}</div>
+{% endfor %}
+
+{% endblock %}

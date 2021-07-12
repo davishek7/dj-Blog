@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render,get_object_or_404,redirect,reverse
 from django.urls import reverse_lazy
+from django.http import JsonResponse, HttpResponse
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
 from django.views.generic.list import ListView
@@ -9,25 +10,13 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment,Category
-from .forms import NewCommentForm, PostForm, SearchForm,CategoryForm
+from .forms import NewCommentForm, PostForm, SearchForm,CategoryForm,SubscribeForm
 from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
+from django.contrib import messages
 
-def categories(request):
-    return {
-        'categories':Category.objects.all(),
-    }
-
-def sidebar_comments(request):
-    return {
-        'sidebar_comments': Comment.objects.filter(status=True)[:5],
-    }
-def sidebar_posts(request):
-    return{
-        'sidebar_posts':Post.objects.filter(status='published')[:5]
-    }
 
 class PostList(ListView):
     model=Post
@@ -191,3 +180,18 @@ def search(request):
 
 def about(request):
     return render(request,'posts/about.html')
+
+
+def subscribe(request):
+    message = {}
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Thank you for subscribing!')
+        else:
+            messages.warning(request,form.errors['email'])
+    else:
+        messages.warning(request,'Your are not allowed to view this page')
+        return redirect('/')
+    return render(request,'posts/subscribe_status.html')

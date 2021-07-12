@@ -1,32 +1,48 @@
 {% load humanize %}
 <div class="col-md-4">
+  <!-- Subscribe Card -->
+
+  <div class="card my-4 shadow-sm">
+    <div class="card-body text-center">
+      <h2 style="text-align: justify">Subscribe</h2>
+      <form method="POST" action="{% url 'posts:subscribe' %}">
+        {% csrf_token %} 
+        {{subscribe_form}}
+        <button type="submit" class="btn btn-primary w-100 my-2 btn-sm">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- Profile Card -->
 
   <div class="card my-4 shadow-sm">
     <div class="card-body text-center">
-      <h2 style='text-align: justify;'>About Me</h2>
-      <hr>
+      <h2 style="text-align: justify">About Me</h2>
+      <hr />
       <img
         src="{{user.profile.profile_pic.url}}"
         alt="author"
         class="rounded image-fluid"
-        width='100%' height='300'
+        width="100%"
+        height="300"
       />
       <h1>{{user.first_name}} {{user.last_name}}</h1>
       <!-- <p class="title">{{user.username}}</p> -->
       <p>{{user.profile.bio}}</p>
-      <a
-        href="https://twitter.com/{{user.profile.twitter_id}}"
-        target="_blank"
-        ><i class="fa fa-twitter text-info" style="font-size: 36px"></i
-      ></a>&nbsp;
-      <a
-        href="https://github.com/{{user.profile.github_id}}"
-        target="_blank"
-        ><i class="fa fa-github text-dark" style="font-size: 36px"></i
-      ></a>&nbsp;
-      <a href="{% url 'posts:about' %}"><i class="fas fa-envelope-square text-warning" style="font-size:36px"></i></a>&nbsp;
+      <a href="https://twitter.com/{{user.profile.twitter_id}}" target="_blank"
+        ><i class="fa fa-twitter text-info" style="font-size: 36px"></i></a
+      >&nbsp;
+      <a href="https://github.com/{{user.profile.github_id}}" target="_blank"
+        ><i class="fa fa-github text-dark" style="font-size: 36px"></i></a
+      >&nbsp;
+      <a href="{% url 'posts:about' %}"
+        ><i
+          class="fas fa-envelope-square text-warning"
+          style="font-size: 36px"
+        ></i></a
+      >&nbsp;
     </div>
   </div>
 
@@ -35,13 +51,16 @@
   <div class="card my-4 shadow-sm">
     <div class="card-body">
       <h3>Latest Posts</h3>
-      <hr>
+      <hr />
       {% for post in sidebar_posts %}
       <div>
         <h3><a href="{{post.get_absolute_url}}">{{post.title}}</a></h3>
-        <small class="text-muted"><i class="far fa-clock"></i>&nbsp;{{post.published|naturaltime}} | <i class="fas fa-list"></i>&nbsp;{{post.category.name}}</small>
+        <small class="text-muted"
+          ><i class="far fa-clock"></i>&nbsp;{{post.published|naturaltime}} |
+          <i class="fas fa-list"></i>&nbsp;{{post.category.name}}</small
+        >
       </div>
-      <hr>
+      <hr />
       {% endfor %}
     </div>
   </div>
@@ -51,15 +70,24 @@
   <div class="card my-4 shadow-sm">
     <div class="card-body">
       <h3>Latest Comments</h3>
-      <hr>
+      <hr />
       {% for comment in sidebar_comments %}
       <div>
-        <h3><a href="{{comment.post.get_absolute_url}}">{{comment.post}}</a></h3>
-        <p><i class='fas fa-users'></i>&nbsp;{{comment.name}} <small class="text-muted">{{comment.created}}</small></p>
+        <h3>
+          <a href="{{comment.post.get_absolute_url}}">{{comment.post}}</a>
+        </h3>
+        <p>
+          <i class="fas fa-users"></i>&nbsp;{{comment.name}}
+          <small class="text-muted">{{comment.created}}</small>
+        </p>
         <p><i class="fas fa-comment-alt"></i>&nbsp;{{comment.content}}</p>
       </div>
-      <hr>
+      <hr />
       {% endfor %}
     </div>
   </div>
+
+  <!-- Footer -->
+
+  {% include 'posts/footer.html' %}
 </div>
