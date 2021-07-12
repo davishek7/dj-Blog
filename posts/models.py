@@ -60,3 +60,10 @@ class Comment(models.Model):
 
     class Meta:
         ordering=['-created']
+
+
+class Subscribe(models.Model):
+    email = models.EmailField(max_length=254,blank=True,null=True)
+
+    def __str__(self):
+        return self.email

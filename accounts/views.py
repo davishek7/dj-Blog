@@ -12,7 +12,7 @@ from .forms import CreateUserForm,ProfileUpdateForm,UserUpdateForm
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from .models import Profile
-from posts.models import Post,Comment
+from posts.models import Post,Comment,Subscribe
 
 def site_user(request):
 	return{
@@ -56,6 +56,8 @@ class RegisterPage(FormView):
 def dashboard(request):
 	posts=Post.objects.all()[:5]
 	comments=Comment.objects.all()[:5]
+	subscriber_count = Subscribe.objects.all().count()
+	all_subscribers = Subscribe.objects.all()
 
 	all_posts = Post.objects.all().count()
 	drafts = Post.objects.filter(status='draft').count()
@@ -75,7 +77,9 @@ def dashboard(request):
 		u_form = UserUpdateForm(instance=request.user)
 		p_form = ProfileUpdateForm(instance=request.user.profile)
 
-	context={'title':"Admin Dashboard",'u_form':u_form,'p_form':p_form,'posts':posts,'all_posts':all_posts,'drafts':drafts,'published':published,'comments':comments}
+	context={'title':"Admin Dashboard",'u_form':u_form,'p_form':p_form,
+		'posts':posts,'all_posts':all_posts,'drafts':drafts,
+		'published':published,'comments':comments,'subscriber_count':subscriber_count,'all_subscribers':all_subscribers}
 	return render(request,'accounts/dashboard.html',context)
 
 class UserPostView(ListView):

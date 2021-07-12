@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Comment,Post,Category
+from .models import Comment,Post,Category,Subscribe
 from ckeditor.fields import RichTextFormField
 from ckeditor_uploader.fields import RichTextUploadingFormField
 
@@ -25,6 +25,7 @@ class NewCommentForm(forms.ModelForm):
         model=Comment
         fields=['name','email','content']
 
+
 class PostForm(forms.ModelForm):
     title = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'class': 'form-control'}))
@@ -39,6 +40,7 @@ class PostForm(forms.ModelForm):
         model=Post
         fields=['title','category','content','status']
 
+
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(label='', widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Enter category name'}), required=True)
@@ -47,7 +49,23 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields=['name']
 
+
 class SearchForm(forms.Form):
-    q = forms.CharField(label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Search for Post'}),required=True)
+    q = forms.CharField(label='',
+            widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Search for Post'}),
+            required=True)
 
 
+class SubscribeForm(forms.ModelForm):
+    email = forms.EmailField(label='',required=True,widget=forms.EmailInput(
+        attrs={'placeholder': 'Please enter your email', 'class': 'form-control','id':'susbsribe-email'}))
+    
+    class Meta:
+        model = Subscribe
+        fields = ['email']
+
+    def clean_email(self,*args, **kwargs):
+        email = self.cleaned_data['email']
+        if Subscribe.objects.filter(email=email).exists():
+            raise forms.ValidationError('You\'ve alreday subscribed!')
+        return email
