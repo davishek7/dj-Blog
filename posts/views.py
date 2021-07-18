@@ -77,6 +77,7 @@ class PostCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self,form):
         form.instance.author=self.request.user
         form.instance.slug = slugify(form.instance.title)
+        messages.success(self.request, f'{form.instance.title} created successfully')
         return super(PostCreateView,self).form_valid(form)
 
     def get_context_data(self, **kwargs):

@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'hitcount',
 
-
     'posts.apps.PostsConfig',
     'accounts.apps.AccountsConfig',
 ]

@@ -20,7 +20,7 @@ def subscribe_email(sender, instance, created, **kwargs):
         'instance':instance
     })
 
-    if created:
+    if created or instance.status == 'published':
         send_mail(
             'New Post',
             f'{instance.title} has been posted\n' + url,

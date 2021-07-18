@@ -35,7 +35,13 @@
   <body>
     {% include 'posts/navbar.html' %}
     <div class="container">
-      <main>{% block content %} {% endblock %}</main>
+      {% if messages %} {% for message in messages %}
+        <div class="my-2 alert alert-{{ message.tags }}">{{message}}</div>
+      {% endfor %} {% endif %}
+      <main>
+      {% block content %} 
+      {% endblock %}
+      </main>
     </div>
 
     <script

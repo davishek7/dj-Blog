@@ -3,9 +3,6 @@
 {% load humanize %}
 {% block content %}
 
-  {% if messages %} {% for message in messages %}
-  <div class="my-2 alert alert-{{ message.tags }}">{{message}}</div>
-  {% endfor %} {% endif %}
 
   <h1 class="text-center my-4">User Dashboard</h1>
   <hr>
