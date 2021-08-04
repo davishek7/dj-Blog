@@ -18,6 +18,11 @@
             {{form.category}}
             <span>{{form.category.errors}}</span>
           </div>
+          <div class="form-group">
+            <label>{{form.image.label}}</label>
+            {{form.image}}
+            <span>{{form.image.errors}}</span>
+          </div>
         <div class="form-group">
           <label>{{form.content.label}}</label>
           {{form.content}}
@@ -31,7 +36,12 @@
           <br>
           <small class='text-info'>*You can make drafts and can publish them later from your profile.</small>
         </div>
-    <button type="submit" class='btn btn-primary' >Post</button>
+        <div class="form-group">
+          <label>{{form.tags.label}}</label>
+          {{form.tags}}
+          <span>{{form.tags.errors}}</span>
+        </div>
+    <button type="submit" class='btn btn-primary'>Post</button>
 </form>
 </div>
 </div>

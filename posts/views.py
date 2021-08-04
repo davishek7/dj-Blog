@@ -6,14 +6,14 @@ from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView, FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment,Category
+from .models import Post, Comment, Category, Tag
 from .forms import NewCommentForm, PostForm, SearchForm,CategoryForm,SubscribeForm
 from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 from hitcount.utils import get_hitcount_model
-from hitcount.views import HitCountMixin
+from hitcount.views import HitCountMixin, HitCountDetailView
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from django.contrib import messages
 
@@ -30,8 +30,41 @@ class PostList(ListView):
         return context
 
     def get_queryset(self):
-        return Post.objects.filter(status='published')
+        return Post.objects.select_related('category').filter(status='published')
 
+
+class PostDetailView(HitCountDetailView,FormMixin):
+    model = Post
+    count_hit = True
+    template_name = 'posts/post.html'
+    context_object_name = 'post'
+    form_class = NewCommentForm
+
+    def get_success_url(self):
+        return reverse('posts:post-detail', kwargs={'slug': self.object.slug})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            form.instance.post = self.object
+            form.save()
+            messages.success(request,'Thank for your feedback.')
+            return self.form_valid(form)
+        else:
+            messages.warning(self.request,'Something went wrong!')
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comment_form"] = self.get_form()
+        context["tags"] = context["post"].tags.all()
+        context["allcomments"] = context["post"].comments.filter(status = True)
+        return context
+    
 
 def post_detail(request,slug):
     post=get_object_or_404(Post,slug=slug,status='published')
@@ -145,6 +178,18 @@ def category_list(request,category_slug):
     return render(request,'posts/category.html',context)
 
 
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'posts/category.html'
+    context_object_name = 'category'
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context["posts"] = Post.objects.filter(category__slug = self.object.slug)
+        return context
+    
+
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class=CategoryForm
@@ -153,6 +198,18 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self,form):
         form.instance.slug = slugify(form.instance.name)
         return super(CategoryCreateView,self).form_valid(form)
+
+
+class TagDetailView(DetailView):
+    model = Tag
+    template_name = 'posts/tag.html'
+    context_object_name = 'tag'
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context["posts"] = Post.objects.filter(tags__slug = self.object.slug)
+        return context
 
 
 def search(request):
@@ -184,7 +241,6 @@ def about(request):
 
 
 def subscribe(request):
-    message = {}
     if request.method == 'POST':
         form = SubscribeForm(request.POST)
         if form.is_valid():

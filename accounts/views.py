@@ -14,10 +14,12 @@ from django.contrib.auth.models import User
 from .models import Profile
 from posts.models import Post,Comment,Subscribe
 
+
 def site_user(request):
 	return{
 		'user':User.objects.first()
 	}
+
 
 class UserLoginView(LoginView):
 	template_name = 'accounts/login.html'
@@ -30,6 +32,7 @@ class UserLoginView(LoginView):
 		context=super().get_context_data(**kwargs)
 		context['title']='Login'
 		return context
+
 
 class RegisterPage(FormView):
 	template_name = 'accounts/register.html'
@@ -51,6 +54,7 @@ class RegisterPage(FormView):
 		if self.request.user.is_authenticated:
 			return redirect('posts:all-posts')
 		return super(RegisterPage, self).get(*args, **kwargs)
+
 
 @login_required
 def dashboard(request):
@@ -81,6 +85,7 @@ def dashboard(request):
 		'posts':posts,'all_posts':all_posts,'drafts':drafts,
 		'published':published,'comments':comments,'subscriber_count':subscriber_count,'all_subscribers':all_subscribers}
 	return render(request,'accounts/dashboard.html',context)
+
 
 class UserPostView(ListView):
 	template_name='accounts/posts_edit.html'

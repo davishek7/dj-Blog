@@ -111,7 +111,7 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MEDIA_ROOT = BASE_DIR / 'blog_media'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -128,16 +128,16 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'basic',
         'height': 725,
         'width': 'auto',
-        'extraPlugins': 'wordcount',
-        'wordcount': {
-            'showParagraphs': True,
-            'showWordCount': True,
-            'showCharCount': True,
-            'countSpacesAsChars': False,
-            'countHTML': False,
-            'maxWordCount': -1,
-            'maxCharCount': 2000
-        },
+        # 'extraPlugins': 'wordcount',
+        # 'wordcount': {
+        #     'showParagraphs': True,
+        #     'showWordCount': True,
+        #     'showCharCount': True,
+        #     'countSpacesAsChars': False,
+        #     'countHTML': False,
+        #     'maxWordCount': -1,
+        #     'maxCharCount': 2000
+        # },
     },
 }
 
@@ -160,5 +160,3 @@ CLOUDINARY_STORAGE = {
 
 if os.getcwd() == '/app':
     DEBUG = False
-
-    

@@ -24,7 +24,7 @@ def subscribe_email(sender, instance, created, **kwargs):
         send_mail(
             'New Post',
             f'{instance.title} has been posted\n' + url,
-            os.environ.get('EMAIL_USER'),
+            "avishekdjangoblog admin <os.environ.get('EMAIL_USER')>",
             list(Subscribe.objects.all()),
             html_message=msg_html,
             fail_silently=False,

@@ -48,6 +48,10 @@
       </div>
       <!-- Post Content -->
       <article class='mt-3'>{{post.content|safe}}</article>
+      <hr/>
+      {% for tag in tags %}
+      <a href="{{tag.get_absolute_url}}" class="btn btn-light rounded">{{tag.name}}</a>
+      {% endfor %}
     </div>
   </div>
     <div class="card shadow-sm my-4 w-75">

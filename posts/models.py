@@ -19,6 +19,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=250,null=True)
+    slug=models.SlugField(max_length=200,unique=True,null=True)
+
+    def get_absolute_url(self):
+        return reverse("posts:tag_list", args=[self.slug])
+
+    def __str__(self):
+        return self.name
+    
+
 class Post(models.Model):
 
     options = (
@@ -35,6 +47,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     content = RichTextUploadingField(blank=True, null=True, db_index=True)
     status=models.CharField(max_length=10,choices=options,default='draft')
+    tags = models.ManyToManyField(Tag, related_name='posts')
 
     class Meta:
         ordering=['-published']
