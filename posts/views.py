@@ -64,42 +64,6 @@ class PostDetailView(HitCountDetailView,FormMixin):
         context["tags"] = context["post"].tags.all()
         context["allcomments"] = context["post"].comments.filter(status = True)
         return context
-    
-
-def post_detail(request,slug):
-    post=get_object_or_404(Post,slug=slug,status='published')
-
-    allcomments=post.comments.filter(status=True)
-    page=request.GET.get('page',1)
-    paginator= Paginator(allcomments,3)
-
-    context={}
-
-    # hitcount logic
-    hit_count = get_hitcount_model().objects.get_for_object(post)
-    hits = hit_count.hits
-    hitcontext = context['hitcount'] = {'pk': hit_count.pk}
-    hit_count_response = HitCountMixin.hit_count(request, hit_count)
-    if hit_count_response.hit_counted:
-        hits = hits + 1
-        hitcontext['hit_counted'] = hit_count_response.hit_counted
-        hitcontext['hit_message'] = hit_count_response.hit_message
-        hitcontext['total_hits'] = hits
-
-    user_comment=None
-
-    if request.method=='POST':
-        comment_form=NewCommentForm(request.POST)
-        if comment_form.is_valid():
-            user_comment=comment_form.save(commit=False)
-            user_comment.post=post
-            user_comment.save()
-            return HttpResponseRedirect('/posts/'+post.slug)
-    else:
-        comment_form = NewCommentForm()
-    context = {'post': post, 'comment_form': comment_form,'allcomments':allcomments,
-               'comments': user_comment,'title': post.title}
-    return render(request,'posts/post.html',context)
 
 
 class PostCreateView(LoginRequiredMixin,CreateView):
@@ -170,12 +134,6 @@ class CommentUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Update a Blog Comment'
         return context
-
-def category_list(request,category_slug):
-    category=get_object_or_404(Category,slug=category_slug)
-    posts=Post.objects.filter(category=category)
-    context={'category':category,'posts':posts,'title':category.name}
-    return render(request,'posts/category.html',context)
 
 
 class CategoryDetailView(DetailView):
