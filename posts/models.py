@@ -39,7 +39,6 @@ class Post(models.Model):
     category=models.ForeignKey(Category,related_name='post',default=1,on_delete=models.SET_NULL,null=True,blank=True)
     title = models.CharField(max_length=200, blank=True, null=True,db_index=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
-    image = models.ImageField(default='thumbnail.png')
     published=models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
