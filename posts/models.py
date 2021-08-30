@@ -2,8 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
-from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
+from django.core.validators import MaxLengthValidator
 
 
 class Category(models.Model):
@@ -45,7 +44,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    content = RichTextUploadingField(blank=True, null=True, db_index=True)
+    content = models.TextField(validators=[MaxLengthValidator(2000)],blank=True, db_index=True)
     status=models.CharField(max_length=10,choices=options,default='draft')
     tags = models.ManyToManyField(Tag, related_name='posts')
 

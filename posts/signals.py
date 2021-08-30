@@ -20,10 +20,10 @@ def subscribe_email(sender, instance, created, **kwargs):
         'instance':instance
     })
 
-    if created or instance.status == 'published':
+    if created and instance.status == 'published':
         send_mail(
             'New Post',
-            f'{instance.title} has been posted\n' + url,
+            f'{instance.title} has been posted',
             "avishekdjangoblog admin <os.environ.get('EMAIL_USER')>",
             list(Subscribe.objects.all()),
             html_message=msg_html,

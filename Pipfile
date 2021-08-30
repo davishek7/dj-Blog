@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
-django-ckeditor = "*"
 dj-database-url = "*"
 gunicorn = "*"
 whitenoise = "*"
@@ -16,6 +15,7 @@ django-admin-honeypot = "*"
 python-dotenv = "*"
 django-hitcount = "*"
 django-cloudinary-storage = "*"
+django-summernote = "*"
 
 [dev-packages]
 

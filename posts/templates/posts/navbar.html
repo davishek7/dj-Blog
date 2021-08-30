@@ -57,7 +57,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {{request.user}} (Admin)</a
+            {{request.user.get_full_name}} (Admin)</a
           >
           {% else %}
           <a

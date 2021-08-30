@@ -23,10 +23,9 @@ INSTALLED_APPS = [
 
     'django.contrib.humanize',
     'django.contrib.postgres',
-    
-    'ckeditor',
-    'ckeditor_uploader',
+
     'django_social_share',
+    'django_summernote',
     'admin_honeypot',
     'hitcount',
 
@@ -107,8 +106,6 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/blog_media/'
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
-
 MEDIA_ROOT = BASE_DIR / 'blog_media'
 
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -123,23 +120,51 @@ STATICFILES_DIRS = [
 # LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'posts:all-posts'
 
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'basic',
-        'height': 725,
-        'width': 'auto',
-        # 'extraPlugins': 'wordcount',
-        # 'wordcount': {
-        #     'showParagraphs': True,
-        #     'showWordCount': True,
-        #     'showCharCount': True,
-        #     'countSpacesAsChars': False,
-        #     'countHTML': False,
-        #     'maxWordCount': -1,
-        #     'maxCharCount': 2000
-        # },
-    },
+# Summernote Config
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SUMMERNOTE_THEME = 'bs4'
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'airMode': False,
+        'width': '100%',
+        'height': '750',
+        'toolbar': [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['style', 'ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['insert',['picture','link','table','hr']],
+            ['view', ['fullscreen', 'codeview','undo', 'redo', 'help']],
+        ],
+        'popover': {
+          'image': [
+            ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+            ['float', ['floatLeft', 'floatRight', 'floatNone']],
+            ['remove', ['removeMedia']]
+          ],
+          'link': [
+            ['link', ['linkDialogShow', 'unlink']]
+          ],
+          'table': [
+            ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+            ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+          ],
+          'air': [
+            ['color', ['color']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['para', ['ul', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']]
+          ]
+        },
+
+        'disable_attachment': True,
+    }
 }
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
