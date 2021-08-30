@@ -13,7 +13,7 @@ urlpatterns = [
     path('login/', UserLoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('register/',RegisterPage.as_view(),name='register'),
     path('logout/',auth_views.LogoutView.as_view(next_page='login'),name='logout'),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('summernote/', include('django_summernote.urls')),
 
     path('password_change/', auth_views.PasswordChangeView.as_view(
     	template_name='accounts/password_change.html'), name='password_change'),

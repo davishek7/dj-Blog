@@ -1,33 +1,33 @@
 {% extends 'posts/layout.html' %} {% block content %}
 
-<div class="card my-4 shadow-sm">
-    <div class="card-body">
-        <form method="get">
-            {{form.as_p}}
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i>&nbsp;Search</button>
-        </form>
+<div class="col-md-8 mx-auto">
+    <div class="card my-4 shadow-sm">
+        <div class="card-body">
+            <form method="get">
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i>&nbsp;Search</button>
+            </form>
+        </div>
     </div>
-</div>
-{% if q %}
-<div class="card shadow-sm my-4">
-    <div class="card-body">
-        <ul style="list-style-type: none;">
-            <h2>Posts containing "{{ q }}"</h2>
-            <p>
-                {% with results.count as total_results %}
-                Found {{ total_results }} result{{ total_results|pluralize }}
-                {% endwith %}
-            </p>
-            
-                {% for post in results %}
-                <li>
-                    <h4>{{forloop.counter}}. <a href="{{post.get_absolute_url}}">{{post.title}}</a></h4>
-                </li>
-                {% endfor %}
-        </ul>
+    {% if q %}
+    <div class="card shadow-sm my-4">
+        <div class="card-body">
+            <ul style="list-style-type: none;">
+                <h2>Posts containing "{{ q }}"</h2>
+                <p>
+                    {% with results.count as total_results %}
+                    Found {{ total_results }} result{{ total_results|pluralize }}
+                    {% endwith %}
+                </p>
+                
+                    {% for post in results %}
+                    <li>
+                        <h4>{{forloop.counter}}. <a href="{{post.get_absolute_url}}">{{post.title}}</a></h4>
+                    </li>
+                    {% endfor %}
+            </ul>
+        </div>
     </div>
+    {% endif %}  
 </div>
-{% endif %}
-
-
 {% endblock %}

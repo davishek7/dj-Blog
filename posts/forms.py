@@ -1,8 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Comment, Post, Category, Subscribe, Tag
-from ckeditor.fields import RichTextFormField
-from ckeditor_uploader.fields import RichTextUploadingFormField
+from django_summernote.widgets import SummernoteWidget
 
 
 class NewCommentForm(forms.ModelForm):
@@ -31,8 +30,7 @@ class PostForm(forms.ModelForm):
         attrs={'class': 'form-control'}))
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(), required=True, empty_label="----Select Category----", widget=forms.Select(attrs={'class': 'form-control w-50'}))
-    content = RichTextUploadingFormField(required=True, widget=forms.Textarea(
-        attrs={'class': 'form-control'}))
+    content = forms.CharField(required=True,widget=SummernoteWidget(attrs={'class':'form-control'}),help_text='*Max 2000 characters')
     status = forms.CharField(widget=forms.Select(choices=Post.options, attrs={
                              'class': 'form-control w-50'}), required=True)
 
