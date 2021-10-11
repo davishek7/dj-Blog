@@ -57,11 +57,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'posts.context_processor.categories',
-                'accounts.views.site_user',
-                'posts.context_processor.sidebar_posts',
-                'posts.context_processor.sidebar_comments',
-                'posts.context_processor.subscribe_form',
+                'posts.context_processor.global_context'
             ],
         },
     },

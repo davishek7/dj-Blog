@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string,get_template
-from posts.models import Post,Subscribe
+from posts.models import Post,Subscribe,Comment,Notification
 
 
 @receiver(post_save, sender=Post)
@@ -30,3 +30,16 @@ def subscribe_email(sender, instance, created, **kwargs):
             fail_silently=False,
 
         )
+
+
+@receiver(post_save, sender=Comment)
+def send_notification(sender, instance, created, **kwargs):
+
+    if created:
+        notification = Notification()
+        notification.post = instance.post
+        notification.comment = instance
+        notification.user = instance.name
+        notification.text = instance.content
+        notification.status = 1
+        notification.save()

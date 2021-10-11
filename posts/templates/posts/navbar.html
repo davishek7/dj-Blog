@@ -21,23 +21,23 @@
           </a>
         </li>
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Categories
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          {% for category in categories %}
-          <a class="dropdown-item d-flex justify-content-between" 
-            href="{% url 'posts:category_list' category.slug %}">
-            {{category.name|title}}
-            <span>{{category.post.count}}</span>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
           </a>
-          {% endfor %}
-          {% if request.user.is_authenticated %}
-          <div class="dropdown-divider"></div>
-          <a href="{% url 'posts:create-category' %}" class="dropdown-item"><i class='fas fa-plus'></i>&nbsp;Add a Category</a>
-          {% endif %}
-        </div>
-      </li>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for category in categories %}
+            <a class="dropdown-item d-flex justify-content-between"
+              href="{% url 'posts:category_list' category.slug %}">
+              {{category.name|title}}
+              <span>{{category.post.count}}</span>
+            </a>
+            {% endfor %}
+            {% if request.user.is_authenticated %}
+            <div class="dropdown-divider"></div>
+            <a href="{% url 'posts:create-category' %}" class="dropdown-item"><i class='fas fa-plus'></i>&nbsp;Add a Category</a>
+            {% endif %}
+          </div>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'posts:about' %}">About</a>
         </li>
@@ -47,6 +47,12 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <button type="link" class="btn btn-dark" data-toggle="modal" data-target="#notification">
+            <i class="fas fa-bell"></i><sup>{{count}}</sup>
+          </button>
+          {% include 'posts/notification_modal.html' %}
+        </li>
         <li class="nav-item dropdown">
           {% if request.user.is_superuser %}
           <a
@@ -57,7 +63,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {{request.user.get_full_name}} (Admin)</a
+            <i class="fas fa-user"></i> (Admin)</a
           >
           {% else %}
           <a

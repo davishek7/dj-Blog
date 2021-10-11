@@ -11,10 +11,10 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
-    
+
     def get_absolute_url(self):
         return reverse('posts:category_list',args=[self.slug])
-    
+
     def __str__(self):
         return self.name
 
@@ -28,7 +28,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class Post(models.Model):
 
@@ -68,6 +68,23 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.name}'s comment on '{self.post}'"
+
+    class Meta:
+        ordering=['-created']
+
+
+class Notification(models.Model):
+    post = models.ForeignKey(
+        Post,related_name='notifications', on_delete=models.DO_NOTHING, blank=True, null=True)
+    comment = models.ForeignKey(
+        Comment,related_name='notifications', on_delete=models.DO_NOTHING, blank=True, null=True)
+    user = models.CharField(max_length=200, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    status=models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.comment.name} commented on '{self.post}'"
 
     class Meta:
         ordering=['-created']

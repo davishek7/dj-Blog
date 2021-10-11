@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment,Category,Subscribe,Tag
+from .models import Post, Comment,Category,Subscribe,Tag,Notification
 
 
 @admin.register(Category)
@@ -28,10 +28,11 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    prepopulated_fields={'slug':('name',)}  
-    
+    prepopulated_fields={'slug':('name',)}
+
     class Meta:
         model = Tag
 
 
+admin.site.register(Notification)
 admin.site.register(Subscribe)
