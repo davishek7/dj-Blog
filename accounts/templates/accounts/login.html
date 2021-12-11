@@ -1,11 +1,11 @@
-{% extends 'accounts/layout.html' %} {% load static %} 
+{% extends 'accounts/layout.html' %} {% load static %}
 {% block title %}
 Login
 {% endblock %}
 {% block content %}
 
 <div class="account-container">
-  
+
   <div class="card my-4 shadow-sm">
     <div class="card-body">
       <form method="POST">
@@ -20,7 +20,7 @@ Login
         <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login</button>
       </form>
       <hr>
-      <a href="#" class='btn btn-light btn-block'><i class="fa fa-user-plus"></i>&nbsp;Create new account</a>
+      <a href="{% url 'register' %}" class='btn btn-light btn-block'><i class="fa fa-user-plus"></i>&nbsp;Create new account</a>
       <br>
       <span><a href="{% url 'password_reset' %}">Forgot Password ?</a></span>
     </div>

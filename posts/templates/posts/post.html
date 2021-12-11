@@ -56,7 +56,7 @@
     </div>
   </div>
     <div class="card shadow-sm my-4">
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         {% with allcomments.count as total_comments %}
           <p>{{total_comments}} comment{{total_comments|pluralize}}</p>
         {% endwith %}
@@ -83,7 +83,7 @@
       </div>
     </div>
     {% for comment in allcomments %}
-    <div class="card card-body border mb-2 p-3">
+    <div class="card card-body border mb-2 p-3" id="comment{{comment.id}}">
       <h6 class="mt-0"><i class='fas fa-users'></i>&nbsp;{{comment.name}}&nbsp;<small class='text-muted'>{{comment.created}}</small></h6>
       {{comment.content|linebreaks}}
     </div>
@@ -106,6 +106,6 @@
 
   /* Alert the copied text */
   alert("Copied the Post link: " + copyText.value);
-} 
+}
   </script>
 {% endblock %}

@@ -18,5 +18,6 @@ urlpatterns = [
     path('comment-edit/<int:pk>/',views.CommentUpdateView.as_view(),name='comment-edit'),
     path('subscribe/',views.subscribe,name='subscribe'),
     path('about/', views.about, name='about'),
+    path('notification/change-status/',views.notification_status_change_view,name='notification-status'),
 
 ]

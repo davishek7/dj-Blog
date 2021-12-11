@@ -1,4 +1,5 @@
 <!-- Navigation -->
+{% load humanize %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="{% url 'posts:all-posts' %}" style="font-family: 'Roboto', sans-serif">AVISHEK<span class='text-info'>DJANGO</span>BLOG</a>
@@ -49,7 +50,13 @@
         {% if request.user.is_authenticated %}
         <li class="nav-item">
           <button type="link" class="btn btn-dark" data-toggle="modal" data-target="#notification">
-            <i class="fas fa-bell"></i><sup>{{count}}</sup>
+            <i class="far fa-comments"></i>&nbsp;<sup>{{count}}</sup>
+          </button>
+          {% include 'posts/notification_modal.html' %}
+        </li>
+        <li class="nav-item">
+          <button type="link" class="btn btn-dark" data-toggle="modal" data-target="#notification">
+            <i class="fas fa-bell"></i>&nbsp;<sup>{{count}}</sup>
           </button>
           {% include 'posts/notification_modal.html' %}
         </li>
@@ -63,8 +70,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <i class="fas fa-user"></i> (Admin)</a
-          >
+            <i class="fas fa-user"></i> (Admin)</a>
           {% else %}
           <a
             class="nav-link dropdown-toggle"

@@ -1,7 +1,6 @@
-<!-- Notification Modal -->
-
+{% load humanize %}
 <div class="modal fade" id="notification" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Notifications</h5>
@@ -12,9 +11,9 @@
       <div class="modal-body">
         <ul class="list-group">
           {% for notification in notifications %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{notification}}
-              <span class="badge badge-primary badge-pill">{{notification.created}}</span>
+            <li class="list-group-item d-flex justify-content-between align-items-center {% if notification.status == 1 %}bg-light{% endif %}">
+              <a href="{{notification.post.get_absolute_url}}#comment{{notification.comment.id}}" class="btn btn-link btn-sm" data-index="{{notification.id}}" id="status">{{notification}}</a>
+              <small>{{notification.created|naturaltime}}</small>
             </li>
           {% endfor %}
           {% if count > 10 %}
@@ -25,3 +24,33 @@
     </div>
   </div>
 </div>
+
+<script>
+
+const status = document.getElementById("status");
+
+status.addEventListener('click',(e)=> {
+  e.preventDefault();
+  const notificationId = status.getAttribute('data-index');
+
+  $.ajax({
+    type:"POST",
+    url:"{% url 'posts:notification-status' %}",
+    data:{
+      notification_id:notificationId,
+      csrfmiddlewaretoken:"{{csrf_token}}",
+    },
+    success:function(response){
+      if(response.status === 'true'){
+        console.log(response['message']);
+        window.location.href = this.href;
+      }
+    },
+    error(response){
+      alert("Something went wrong")
+    }
+  })
+
+});
+
+</script>>

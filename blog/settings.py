@@ -8,8 +8,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','avishekdjangoblog.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','.herokuapp.com']
 
+DEV_URL = '127.0.0.1:8000'
+LIVE_URL = 'avishekdjangoblog.herokuapp.com'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,8 +31,10 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'hitcount',
 
-    'posts.apps.PostsConfig',
-    'accounts.apps.AccountsConfig',
+    'posts',
+    'accounts',
+    'commons',
+    'message'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +61,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'posts.context_processor.global_context'
+                'commons.context_processor.global_context'
             ],
         },
     },
@@ -179,5 +183,5 @@ CLOUDINARY_STORAGE = {
 }
 
 
-# if os.getcwd() == '/app':
-#     DEBUG = False
+if os.getcwd() == '/app':
+    DEBUG = False

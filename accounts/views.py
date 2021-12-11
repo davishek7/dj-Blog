@@ -15,12 +15,6 @@ from .models import Profile
 from posts.models import Post,Comment,Subscribe
 
 
-def site_user(request):
-	return{
-		'user':User.objects.first()
-	}
-
-
 class UserLoginView(LoginView):
 	template_name = 'accounts/login.html'
 
@@ -44,7 +38,7 @@ class RegisterPage(FormView):
 		if user is not None:
 			login(self.request, user)
 		return super(RegisterPage, self).form_valid(form)
-	
+
 	def get_context_data(self,**kwargs):
 		context=super().get_context_data(**kwargs)
 		context['title']='Register'

@@ -11,9 +11,9 @@ from posts.models import Post,Subscribe,Comment,Notification
 def subscribe_email(sender, instance, created, **kwargs):
 
     if settings.DEBUG:
-        url = 'http://' + settings.ALLOWED_HOSTS[0] + f':8000/posts/{instance.slug}'
+        url = 'http://' + settings.DEV_URL + f'/posts/{instance.slug}'
     else:
-        url = 'https://' + settings.ALLOWED_HOSTS[1] + f'/posts/{instance.slug}'
+        url = 'https://' + settings.LIVE_URL + f'/posts/{instance.slug}'
 
     msg_html = get_template('posts/subscriber_email.html').render({
         'url':url,

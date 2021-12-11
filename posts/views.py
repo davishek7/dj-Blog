@@ -9,18 +9,20 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView, FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment, Category, Tag
+from .models import *
 from .forms import NewCommentForm, PostForm, SearchForm,CategoryForm,SubscribeForm
 from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin, HitCountDetailView
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from django.contrib import messages
+from datetime import datetime
+from django.core import serializers
 
 
 class PostList(ListView):
     model=Post
-    template_name='posts/index.html'
+    template_name='posts/index1.html'
     context_object_name='posts'
     paginate_by=10
 
@@ -91,7 +93,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     def form_valid(self,form):
         form.instance.user=self.request.user
         return super(PostUpdateView,self).form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Update a Blogpost'
@@ -146,7 +148,7 @@ class CategoryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["posts"] = Post.objects.filter(category__slug = self.object.slug)
         return context
-    
+
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
@@ -169,6 +171,34 @@ class TagDetailView(DetailView):
         context["posts"] = Post.objects.filter(tags__slug = self.object.slug)
         return context
 
+def get_new_notifications(request):
+
+    response = {}
+    if request.method == 'GET':
+        notifications = Notification.objects.filter(created__lte = datetime.now())
+        response = serializers.serialize("json", notifications)
+        print(response)
+    return JsonResponse(response)
+
+
+def notification_status_change_view(request):
+
+    notification_id = request.POST['notification_id']
+    response = {}
+
+    if notification_id:
+        notification = Notification.objects.filter(id=notification_id).first()
+        if notification.status == 1:
+            notification.status = 0
+            notification.save()
+            response['status'] = True
+            response['message'] = 'notification status changed.'
+    else:
+        response['status'] = False
+        response['message'] = 'something went wrong.'
+
+    return JsonResponse(response)
+
 
 def search(request):
     form = SearchForm()
@@ -182,7 +212,7 @@ def search(request):
 
             vector = SearchVector('title',weight='A')+\
                 SearchVector('content',weight='B')
-                
+
             query = SearchQuery(q)
 
             results = Post.objects.annotate(rank=SearchRank(vector,query,cover_density=True)).order_by('-rank')
