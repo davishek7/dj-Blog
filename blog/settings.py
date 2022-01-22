@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'posts',
     'accounts',
     'commons',
-    'message'
+    # 'message'
 ]
 
 MIDDLEWARE = [
@@ -108,7 +108,7 @@ MEDIA_URL = '/blog_media/'
 
 MEDIA_ROOT = BASE_DIR / 'blog_media'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'

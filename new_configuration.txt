@@ -1,0 +1,31 @@
+Blog
+	- account
+		- login
+		- register
+	- post
+		- list view
+		- single view
+			- comments
+			- share
+	- common
+		- contex processors
+	- admin-dashboard
+		- all admin related stuffs
+	- frontend
+		- home page
+	- notification
+		- modal view
+		- list view
+	- user-post
+		- create
+		- update
+		- delete
+		- bookmark
+	- templates
+		- post
+		- account
+		- common
+		- frontend
+		- admin-dashboard
+		- notification
+		- user-post
