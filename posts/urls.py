@@ -11,13 +11,11 @@ urlpatterns = [
     path('delete-post/<slug:slug>/',
          views.PostDeleteView.as_view(), name='delete-post'),
     path('search/', views.search, name='search'),
-    path('posts/<slug:slug>/',views.PostDetailView.as_view(),name='post-detail'),
+    path('<slug:slug>/',views.PostDetailView.as_view(),name='post-detail'),
     path('category/<slug:slug>/',views.CategoryDetailView.as_view(),name='category_list'),
     path('create-category/', views.CategoryCreateView.as_view(), name='create-category'),
     path('tag/<slug:slug>/',views.TagDetailView.as_view(),name='tag_list'),
     path('comment-edit/<int:pk>/',views.CommentUpdateView.as_view(),name='comment-edit'),
     path('subscribe/',views.subscribe,name='subscribe'),
     path('about/', views.about, name='about'),
-    path('notification/change-status/',views.notification_status_change_view,name='notification-status'),
-
 ]

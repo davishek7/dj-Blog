@@ -31,10 +31,14 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'hitcount',
 
-    'posts',
-    'accounts',
+    'posts.apps.PostsConfig',
+    'accounts.apps.AccountsConfig',
+    'frontend.apps.FrontendConfig',
+    # 'notifications.apps.NotificationsConfig',
+    # 'subscriptions.apps.SubscriptionsConfig',
+    # 'user_post.apps.UserPostConfig',
+    # 'admin_dashboard.apps.AdminDashboardConfig',
     'commons',
-    # 'message'
 ]
 
 MIDDLEWARE = [
@@ -53,7 +57,7 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,7 +122,7 @@ STATICFILES_DIRS = [
 ]
 
 # LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'posts:all-posts'
+LOGIN_REDIRECT_URL = 'frontend:index'
 
 # Summernote Config
 X_FRAME_OPTIONS = 'SAMEORIGIN'

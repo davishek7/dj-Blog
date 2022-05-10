@@ -10,19 +10,17 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import *
-from .forms import NewCommentForm, PostForm, SearchForm,CategoryForm,SubscribeForm
+from .forms import CommentForm, PostForm, SearchForm,CategoryForm
 from django.core.paginator import Paginator ,EmptyPage,PageNotAnInteger
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin, HitCountDetailView
 from django.contrib.postgres.search import SearchVector,SearchQuery,SearchRank
 from django.contrib import messages
-from datetime import datetime
-from django.core import serializers
 
 
 class PostList(ListView):
     model=Post
-    template_name='posts/index1.html'
+    template_name='frontend/index.html'
     context_object_name='posts'
     paginate_by=10
 
@@ -40,7 +38,7 @@ class PostDetailView(HitCountDetailView,FormMixin):
     count_hit = True
     template_name = 'posts/post.html'
     context_object_name = 'post'
-    form_class = NewCommentForm
+    form_class = CommentForm
 
     def get_success_url(self):
         return reverse('posts:post-detail', kwargs={'slug': self.object.slug})
@@ -51,7 +49,7 @@ class PostDetailView(HitCountDetailView,FormMixin):
         if form.is_valid():
             form.instance.post = self.object
             form.save()
-            messages.success(request,'Thank for your feedback.')
+            messages.success(request,'Thanks for your feedback.')
             return self.form_valid(form)
         else:
             messages.warning(self.request,'Something went wrong!')
@@ -64,7 +62,7 @@ class PostDetailView(HitCountDetailView,FormMixin):
         context = super().get_context_data(**kwargs)
         context["comment_form"] = self.get_form()
         context["tags"] = context["post"].tags.all()
-        context["allcomments"] = context["post"].comments.filter(status = True)
+        context["comments"] = context["post"].comments.select_related('post').filter(status = True).order_by('-created')
         return context
 
 
@@ -170,35 +168,7 @@ class TagDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["posts"] = Post.objects.filter(tags__slug = self.object.slug)
         return context
-
-def get_new_notifications(request):
-
-    response = {}
-    if request.method == 'GET':
-        notifications = Notification.objects.filter(created__lte = datetime.now())
-        response = serializers.serialize("json", notifications)
-        print(response)
-    return JsonResponse(response)
-
-
-def notification_status_change_view(request):
-
-    notification_id = request.POST['notification_id']
-    response = {}
-
-    if notification_id:
-        notification = Notification.objects.filter(id=notification_id).first()
-        if notification.status == 1:
-            notification.status = 0
-            notification.save()
-            response['status'] = True
-            response['message'] = 'notification status changed.'
-    else:
-        response['status'] = False
-        response['message'] = 'something went wrong.'
-
-    return JsonResponse(response)
-
+        
 
 def search(request):
     form = SearchForm()

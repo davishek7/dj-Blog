@@ -1,14 +1,14 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Comment, Post, Category, Subscribe, Tag
+from .models import Comment, Post, Category, Tag
 from django_summernote.widgets import SummernoteWidget
 
 
-class NewCommentForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
         attrs={'placeholder': 'Your name', 'class': 'form-control mb-2'}))
     email = forms.EmailField(widget=forms.EmailInput(
-        attrs={'placeholder': 'Your email', 'class': 'form-control mb-2'}))
+        attrs={'placeholder': 'Your email', 'class': 'form-control'}))
     content = forms.CharField(widget=forms.Textarea(
         attrs={'rows': 5, 'placeholder': 'Your comment', 'class': 'form-control mb-2'}))
 
@@ -18,7 +18,7 @@ class NewCommentForm(forms.ModelForm):
         for fieldname in ['name', 'email', 'content']:
             self.fields[fieldname].required = True
             self.fields[fieldname].label = ''
-            self.fields['email'].help_text = '<small class="text-muted">* Your email will not be published.</small>'
+            self.fields['email'].help_text = '<small class="text-muted mb-2">* Your email will not be published.</small>'
 
     class Meta:
         model = Comment
@@ -35,7 +35,7 @@ class PostForm(forms.ModelForm):
                              'class': 'form-control w-50'}), required=True)
 
     tags = forms.ModelMultipleChoiceField(required=True, queryset=Tag.objects.all(
-    ), widget=forms.SelectMultiple(attrs={'class': 'form-control w-50'}))
+    ), widget=forms.SelectMultiple(attrs={'class': 'form-control w-50 mb-2'}))
 
     class Meta:
         model = Post
@@ -58,16 +58,16 @@ class SearchForm(forms.Form):
                         required=True)
 
 
-class SubscribeForm(forms.ModelForm):
-    email = forms.EmailField(label='', required=True, widget=forms.EmailInput(
-        attrs={'placeholder': 'Please enter your email', 'class': 'form-control', 'id': 'susbsribe-email'}))
+# class SubscribeForm(forms.ModelForm):
+#     email = forms.EmailField(label='', required=True, widget=forms.EmailInput(
+#         attrs={'placeholder': 'Please enter your email', 'class': 'form-control', 'id': 'susbsribe-email'}))
 
-    class Meta:
-        model = Subscribe
-        fields = ['email']
+#     class Meta:
+#         model = Subscribe
+#         fields = ['email']
 
-    def clean_email(self, *args, **kwargs):
-        email = self.cleaned_data['email']
-        if Subscribe.objects.filter(email=email).exists():
-            raise forms.ValidationError('You\'ve alreday subscribed!')
-        return email
+#     def clean_email(self, *args, **kwargs):
+#         email = self.cleaned_data['email']
+#         if Subscribe.objects.filter(email=email).exists():
+#             raise forms.ValidationError('You\'ve alreday subscribed!')
+#         return email

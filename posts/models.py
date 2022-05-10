@@ -47,9 +47,6 @@ class Post(models.Model):
     status=models.CharField(max_length=10,choices=options,default='draft')
     tags = models.ManyToManyField(Tag, related_name='posts')
 
-    class Meta:
-        ordering=['-published']
-
     def get_absolute_url(self):
         return reverse('posts:post-detail', args=[self.slug])
 
@@ -68,30 +65,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.name}'s comment on '{self.post}'"
-
-    class Meta:
-        ordering=['-created']
-
-
-class Notification(models.Model):
-    post = models.ForeignKey(
-        Post,related_name='notifications', on_delete=models.DO_NOTHING, blank=True, null=True)
-    comment = models.ForeignKey(
-        Comment,related_name='notifications', on_delete=models.DO_NOTHING, blank=True, null=True)
-    user = models.CharField(max_length=200, blank=True, null=True)
-    text = models.TextField(blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    status=models.IntegerField(default=1)
-
-    def __str__(self):
-        return f"{self.comment.name} commented on '{self.post}'"
-
-    class Meta:
-        ordering=['-created']
-
-
-class Subscribe(models.Model):
-    email = models.EmailField(max_length=254,blank=True,null=True)
-
-    def __str__(self):
-        return self.email

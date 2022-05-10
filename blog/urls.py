@@ -8,17 +8,18 @@ from accounts.views import RegisterPage,UserLoginView
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('secret/', admin.site.urls),
-    path('',include('posts.urls',namespace='posts')),
+    path('',include('frontend.urls',namespace='frontend')),
+    path('posts/',include('posts.urls',namespace='posts')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('login/', UserLoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('register/',RegisterPage.as_view(),name='register'),
     path('logout/',auth_views.LogoutView.as_view(next_page='login'),name='logout'),
     path('summernote/', include('django_summernote.urls')),
 
-    path('password_change/', auth_views.PasswordChangeView.as_view(
+    path('password-change/', auth_views.PasswordChangeView.as_view(
     	template_name='accounts/password_change.html'), name='password_change'),
 
-    path('password_change_done/',
+    path('password-change-done/',
          auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
 
     path('reset-password/', auth_views.PasswordResetView.as_view(template_name='accounts/password_reset.html'),

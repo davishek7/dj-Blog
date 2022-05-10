@@ -1,49 +1,19 @@
-{% load static %} {% load humanize %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% extends 'layouts/main_layout.html' %}
+{% load static %}
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+{% block title %}
+<!-- title -->
+{% endblock %}
 
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://unpkg.com/htmx.org@1.6.0" integrity="sha384-G4dtlRlMBrk5fEiRXDsLjriPo8Qk5ZeHVVxS8KhX6D7I9XXJlNqbdvRlp9/glk5D" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <script
-      src="https://kit.fontawesome.com/cc52db2e78.js"
-      crossorigin="anonymous"
-    ></script>
-    {% block mycss %} {% endblock mycss %} {% if title %}
-    <title>{{title}} | django Blog</title>
-    {% endif %}
-  </head>
-  <body>
-    {% include 'posts/navbar.html' %}
-    <div class="container">
-      {% if messages %} {% for message in messages %}
-        <div class="my-2 alert alert-{{ message.tags }}">{{message}}</div>
-      {% endfor %} {% endif %}
-      <main>
-      {% block content %}
-      {% endblock %}
-      </main>
-    </div>
+{% block css %}
+<!-- css -->
+{% endblock %}
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+{% block nav %}
+<!-- Navbar -->
+    {% include 'commons/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

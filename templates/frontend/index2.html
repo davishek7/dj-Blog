@@ -1,4 +1,4 @@
-{% extends 'posts/layout.html' %}
+{% extends 'layouts/common_layout.html' %}
 {% load hitcount_tags %}
 {% load humanize %}
 {% block content %}
@@ -33,9 +33,9 @@
     {% endfor%}
 
     <!-- Pagination -->
-      {% include 'posts/pagination.html' %}
+      {% include 'commons/pagination.html' %}
   </div>
-  {% include 'posts/sidebar.html' %}
+  {% include 'commons/sidebar.html' %}
 </div>
 
 {% endblock %}

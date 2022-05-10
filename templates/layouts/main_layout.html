@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block title %}{% endblock %} | Avishek Django Blog</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/common_style.css' %}" />
+        <script src="https://kit.fontawesome.com/cc52db2e78.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+        {% block css %}
+        <!-- css -->
+        {% endblock %}
+    </head>
+    <body class="d-flex flex-column">
+        <main class="flex-shrink-0">
+
+            {% block nav %}
+            <!-- Navbar -->
+            {% endblock %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success'%}
+                        <script type=text/javascript>toastr.{{ message.tags }}('Success', '{{ message }}')</script>
+                    {% elif message.tags == 'info' %}
+                        <script type=text/javascript>toastr.{{ message.tags }}('Info', '{{ message }}')</script>
+                    {% elif message.tags == 'warning' %}
+                        <script type=text/javascript>toastr.{{ message.tags }}('Warning', '{{ message }}')</script>
+                    {% elif message.tags == 'error' %}
+                        <script type=text/javascript>toastr.{{ message.tags }}('Error', '{{ message }}')</script>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}  
+
+            {% block content %}
+
+            {% endblock %}
+        </main>
+        <!-- Footer-->
+        {% include 'commons/footer.html' %}
+        <!-- Bootstrap core JS-->
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <!-- Core theme JS-->
+</body>
+</html>
